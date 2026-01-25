@@ -1,8 +1,6 @@
 services:
     postgres:
         image: postgres:latest
-        env_file:
-            - ../../.env
         healthcheck:
             test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U" ]
             timeout: 45s
