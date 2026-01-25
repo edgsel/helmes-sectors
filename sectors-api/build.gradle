@@ -1,3 +1,6 @@
+import java.nio.file.Files
+import java.time.Year
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.2'
@@ -40,3 +43,28 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.register("createChangeDir") {
+    group = "liquibase"
+    description = "Creates an empty SQL file for liquibase migration"
+
+    def currentYear = Year.now().value
+    def projectId = project.id
+    def changelogDir = projectDir.toPath().resolve("src/main/resources/db/changelog/${currentYear}")
+
+    doLast {
+        Files.createDirectories(changelogDir)
+
+        def filename = "${System.currentTimeMillis()}-${projectId}.sql"
+        def newFilePath = changelogDir.resolve(filename)
+
+        Files.writeString(
+            newFilePath,
+            "-- liquibase formatted sql logicalFilePath:classpath:/db/changelog/${currentYear}/${filename}\n" +
+                "-- changeset edgsel:${projectId}\n"
+        )
+
+        logger.quiet("Created a new file: $newFilePath")
+    }
+}
+
