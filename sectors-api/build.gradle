@@ -1,0 +1,70 @@
+import java.nio.file.Files
+import java.time.Year
+
+plugins {
+    id "java"
+    id "org.springframework.boot" version "4.0.2"
+    id "io.spring.dependency-management" version "1.1.7"
+}
+
+group = "com.helmes"
+version = "1.0.0"
+description = "Test project for Helmes"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-liquibase"
+    implementation "org.springframework.boot:spring-boot-starter-webmvc"
+    compileOnly "org.projectlombok:lombok"
+    runtimeOnly "org.postgresql:postgresql"
+    annotationProcessor "org.projectlombok:lombok"
+    testImplementation "org.springframework.boot:spring-boot-starter-data-jpa-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-liquibase-test"
+    testImplementation "org.springframework.boot:spring-boot-starter-webmvc-test"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+}
+
+tasks.register("createChangeDir") {
+    group = "liquibase"
+    description = "Creates an empty SQL file for liquibase migration"
+
+    def currentYear = Year.now().value
+    def projectId = project.id
+    def changelogDir = projectDir.toPath().resolve("src/main/resources/db/changelog/${currentYear}")
+
+    doLast {
+        Files.createDirectories(changelogDir)
+
+        def filename = "${System.currentTimeMillis()}-${projectId}.sql"
+        def newFilePath = changelogDir.resolve(filename)
+
+        Files.writeString(
+            newFilePath,
+            "-- liquibase formatted sql logicalFilePath:classpath:/db/changelog/${currentYear}/${filename}\n" +
+                "-- changeset edgsel:${projectId}\n"
+        )
+
+        logger.quiet("Created a new file: $newFilePath")
+    }
+}
+
