@@ -29,9 +29,9 @@ spring:
     datasource:
         dbcp2:
             test-while-idle: true
-            validation-query: 'SELECT 1'
+            validation-query: "SELECT 1"
         driver-class-name: org.postgresql.Driver
-        url: 'jdbc:postgresql://localhost:5432/${POSTGRES_DB}'
+        url: "jdbc:postgresql://localhost:5432/${POSTGRES_DB}"
         username: ${POSTGRES_USERNAME}
         password: ${POSTGRES_PASSWORD}
     liquibase:
