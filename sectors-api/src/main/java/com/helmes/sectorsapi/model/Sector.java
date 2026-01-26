@@ -1,6 +1,5 @@
 package com.helmes.sectorsapi.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,7 +35,7 @@ public class Sector {
     @JoinColumn(name = "parent_id")
     private Sector parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent")
     private List<Sector> children;
 
     @Column(nullable = false)
