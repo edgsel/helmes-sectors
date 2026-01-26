@@ -2,11 +2,12 @@
 -- changeset edgsel:hlms-001-init-tables
 
 CREATE TABLE sectors (
-    id         INT PRIMARY KEY,
-    parent_id  INT REFERENCES sectors(id),
-    name       TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE
+    id                INT PRIMARY KEY,
+    parent_id         INT REFERENCES sectors(id),
+    name              TEXT NOT NULL,
+    sector_level      INT NOT NULL,
+    created_at        TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at        TIMESTAMP WITH TIME ZONE
 );
 
 CREATE TABLE user_data (

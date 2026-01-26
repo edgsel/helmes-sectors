@@ -40,7 +40,7 @@ public class UserData {
     private Sector sector;
 
     @Column(name = "agreed_to_terms", nullable = false)
-    private Boolean agreedToTerms = false;
+    private boolean agreedToTerms;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

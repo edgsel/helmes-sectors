@@ -42,6 +42,9 @@ public class Sector {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "sector_level")
+    private Integer sectorLevel;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
