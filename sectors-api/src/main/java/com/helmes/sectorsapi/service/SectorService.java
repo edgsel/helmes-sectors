@@ -26,8 +26,8 @@ public class SectorService {
     }
 
     private List<SectorDTO> toTree(List<SectorDTO> dtos) {
-        var dtoMap = dtos.stream().collect(Collectors.toMap(SectorDTO::getId, Function.identity()));
         var roots = new ArrayList<SectorDTO>();
+        var dtoMap = dtos.stream().collect(Collectors.toMap(SectorDTO::getId, Function.identity()));
 
         for (SectorDTO dto : dtos) {
             if (dto.getParentId() != null) {
