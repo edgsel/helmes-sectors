@@ -1,0 +1,121 @@
+openapi: 3.1.1
+info:
+    title: Helmes Sectors API
+    version: 1.0.0
+
+paths:
+    /api/v1/user-data:
+        post:
+            summary: Saves user data
+            operationId: User Data
+            requestBody:
+                description: User data
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserDataDTO'
+            responses:
+                '201':
+                    description: User data successfully created
+                '400':
+                    description: Invalid request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+                '404':
+                    description: Not Found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+
+    /api/v1/sectors/tree:
+        get:
+            summary: Returns sectors as tree
+            operationId: Sectors
+            responses:
+                '200':
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SectorDTO'
+                '400':
+                    description: Invalid request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+components:
+    schemas:
+        SectorDTO:
+            type: object
+            description: Sector tree node
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                    example: 6
+                name:
+                    type: string
+                    example: Food and Beverage
+                parentId:
+                    type: integer
+                    format: int32
+                    nullable: true
+                    example: 1
+                sectorLevel:
+                    type: integer
+                    format: int32
+                    example: 2
+                children:
+                    type: array
+                    default: [ ]
+                    items:
+                        $ref: '#/components/schemas/SectorDTO'
+        UserDataDTO:
+            type: object
+            required:
+                - name
+                - sectorIds
+                - agreedToTerms
+            properties:
+                name:
+                    type: string
+                    minLength: 2
+                    maxLength: 240
+                    example: 'John Doe'
+                sectorIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: int64
+                    minItems: 1
+                    example: [ 1, 4, 5 ]
+                agreedToTerms:
+                    type: boolean
+                    const: true
+                    example: true
+        ErrorDTO:
+            type: object
+            properties:
+                code:
+                    type: string
+                    description: Server error code
+                description:
+                    type: string
+                    description: Detailed description of the error
