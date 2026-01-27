@@ -29,7 +29,7 @@ import java.util.List;
 public class Sector {
 
     @Id
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

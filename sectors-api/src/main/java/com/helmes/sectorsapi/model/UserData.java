@@ -1,5 +1,6 @@
 package com.helmes.sectorsapi.model;
 
+import com.helmes.sectorsapi.dto.UserDataDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -61,5 +62,12 @@ public class UserData {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = OffsetDateTime.now();
+    }
+
+    public static UserData toEntity(String name, Set<Sector> sectors, boolean agreedToTerms) {
+        return UserData.builder()
+            .name(name)
+            .sectors(sectors)
+            .agreedToTerms(agreedToTerms).build();
     }
 }
