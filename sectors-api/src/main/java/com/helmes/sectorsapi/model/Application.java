@@ -44,7 +44,7 @@ public class Application {
     private String applicantName;
 
     @Column(name = "agreed_to_terms", nullable = false)
-    private boolean agreedToTerms;
+    private Boolean agreedToTerms;
 
     @ManyToMany
     @JoinTable(
@@ -76,7 +76,7 @@ public class Application {
             .user(user)
             .applicantName(applicationDTO.getApplicantName())
             .sectors(sectors)
-            .agreedToTerms(applicationDTO.isAgreedToTerms())
+            .agreedToTerms(applicationDTO.getAgreedToTerms())
             .build();
     }
 }

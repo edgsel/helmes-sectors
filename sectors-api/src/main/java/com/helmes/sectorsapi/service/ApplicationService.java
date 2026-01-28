@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public class ApplicationService {
     @Transactional
     public void saveApplication(Long userId, ApplicationDTO applicationDTO) {
         var user = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException("User ID %s not found".formatted(userId), USER_NOT_FOUND.name()));
+            .orElseThrow(() -> new EntityNotFoundException("User with ID %s not found".formatted(userId), USER_NOT_FOUND.name()));
         var sectors = sectorRepository.findAllByIdSet(applicationDTO.getSectorIds());
 
         validateSectors(applicationDTO.getSectorIds(), sectors);

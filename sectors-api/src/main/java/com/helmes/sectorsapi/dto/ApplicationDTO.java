@@ -26,6 +26,7 @@ public class ApplicationDTO {
     @NotEmpty(message = "Selected sectors cannot be empty")
     private Set<Long> sectorIds;
 
+    @NotNull(message = "Terms must be accepted")
     @AssertTrue(message = "Terms must be accepted")
-    private boolean agreedToTerms;
+    private Boolean agreedToTerms;
 }
