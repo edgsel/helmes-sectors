@@ -1,14 +1,14 @@
 package com.helmes.sectorsapi.model;
 
-import com.helmes.sectorsapi.dto.UserDataDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -20,6 +20,7 @@ import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -27,32 +28,37 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_data")
-public class UserData {
+@Table(name = "applications")
+public class Application {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue
+    private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @ManyToMany
-    @JoinTable(
-        name = "user_sectors",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "sector_id")
-    )
-    private Set<Sector> sectors;
+    @Column(name = "applicant_name", nullable = false)
+    private String applicantName;
 
     @Column(name = "agreed_to_terms", nullable = false)
     private boolean agreedToTerms;
+
+    @ManyToMany
+    @JoinTable(
+        name = "application_sectors",
+        joinColumns = @JoinColumn(name = "application_id"),
+        inverseJoinColumns = @JoinColumn(name = "sector_id")
+    )
+    private Set<Sector> sectors;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
+
 
     @PrePersist
     protected void onCreate() {
@@ -64,10 +70,14 @@ public class UserData {
         this.updatedAt = OffsetDateTime.now();
     }
 
-    public static UserData toEntity(String name, Set<Sector> sectors, boolean agreedToTerms) {
-        return UserData.builder()
-            .name(name)
+    public static Application toEntity(User user, Set<Sector> sectors, String applicantName, boolean agreedToTerms) {
+        return Application.builder()
+            .user(user)
+            .applicantName(applicantName)
             .sectors(sectors)
-            .agreedToTerms(agreedToTerms).build();
+            .agreedToTerms(agreedToTerms)
+            .build();
     }
 }
+
+
