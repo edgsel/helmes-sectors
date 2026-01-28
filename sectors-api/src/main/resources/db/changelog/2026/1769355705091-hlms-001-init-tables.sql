@@ -32,7 +32,6 @@ CREATE TABLE application_sectors (
     application_id UUID NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
     sector_id      INT NOT NULL REFERENCES sectors(id),
     created_at     TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP WITH TIME ZONE,
     PRIMARY KEY (application_id, sector_id)
 );
 

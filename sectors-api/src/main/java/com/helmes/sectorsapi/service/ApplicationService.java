@@ -1,38 +1,44 @@
 package com.helmes.sectorsapi.service;
 
-import com.helmes.sectorsapi.dto.UserDataDTO;
+import com.helmes.sectorsapi.dto.ApplicationDTO;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
+import com.helmes.sectorsapi.model.Application;
 import com.helmes.sectorsapi.model.Sector;
-import com.helmes.sectorsapi.model.UserData;
+import com.helmes.sectorsapi.repository.ApplicationRepository;
 import com.helmes.sectorsapi.repository.SectorRepository;
-import com.helmes.sectorsapi.repository.UserDataRepository;
+import com.helmes.sectorsapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.helmes.sectorsapi.exception.ErrorCode.SECTORS_NOT_FOUND;
+import static com.helmes.sectorsapi.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
-public class UserDataService {
+public class ApplicationService {
 
-    private final UserDataRepository userDataRepository;
+    private final UserRepository userRepository;
     private final SectorRepository sectorRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Transactional
-    public void saveUser(UserDataDTO userDataDTO) {
-        var sectors = sectorRepository.findAllByIdSet(userDataDTO.getSectorIds());
+    public void saveApplication(Long userId, ApplicationDTO applicationDTO) {
+        var user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("User ID %s not found".formatted(userId), USER_NOT_FOUND.name()));
+        var sectors = sectorRepository.findAllByIdSet(applicationDTO.getSectorIds());
 
-        validate(userDataDTO.getSectorIds(), sectors);
+        validateSectors(applicationDTO.getSectorIds(), sectors);
 
-        userDataRepository.save(UserData.toEntity(userDataDTO.getName(), sectors, userDataDTO.isAgreedToTerms()));
+        applicationRepository.save(Application.toEntity(applicationDTO, user, sectors));
     }
 
-    private static void validate(Set<Long> dtoSectorsIds, Set<Sector> sectorEntities) {
+    private static void validateSectors(Set<Long> dtoSectorsIds, Set<Sector> sectorEntities) {
         if (dtoSectorsIds.size() != sectorEntities.size()) {
             var foundIds = sectorEntities.stream()
                 .map(Sector::getId)

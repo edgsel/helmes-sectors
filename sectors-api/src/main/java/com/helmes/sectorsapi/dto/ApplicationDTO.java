@@ -16,12 +16,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDataDTO {
+public class ApplicationDTO {
 
     @Size(min = 2, max = 240)
     @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be empty")
-    private String name;
+    private String applicantName;
 
     @NotEmpty(message = "Selected sectors cannot be empty")
     private Set<Long> sectorIds;

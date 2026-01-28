@@ -1,5 +1,6 @@
 package com.helmes.sectorsapi.model;
 
+import com.helmes.sectorsapi.dto.ApplicationDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -70,12 +71,12 @@ public class Application {
         this.updatedAt = OffsetDateTime.now();
     }
 
-    public static Application toEntity(User user, Set<Sector> sectors, String applicantName, boolean agreedToTerms) {
+    public static Application toEntity(ApplicationDTO applicationDTO, User user, Set<Sector> sectors) {
         return Application.builder()
             .user(user)
-            .applicantName(applicantName)
+            .applicantName(applicationDTO.getApplicantName())
             .sectors(sectors)
-            .agreedToTerms(agreedToTerms)
+            .agreedToTerms(applicationDTO.isAgreedToTerms())
             .build();
     }
 }
