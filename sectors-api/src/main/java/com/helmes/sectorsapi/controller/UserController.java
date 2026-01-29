@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.UserRegisterDTO;
+import com.helmes.sectorsapi.dto.AuthResponseDTO;
 import com.helmes.sectorsapi.dto.UserAuthDTO;
 import com.helmes.sectorsapi.service.UserService;
 import jakarta.validation.Valid;
@@ -20,13 +20,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Long> register(@RequestBody @Valid UserRegisterDTO dto) {
-        var user = userService.register(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user.getId());
+    public ResponseEntity<AuthResponseDTO> register(@RequestBody @Valid UserAuthDTO dto) {
+        var token = userService.register(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(token);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserAuthDTO dto) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid UserAuthDTO dto) {
         var token = userService.authenticate(dto);
         return ResponseEntity.ok(token);
     }
