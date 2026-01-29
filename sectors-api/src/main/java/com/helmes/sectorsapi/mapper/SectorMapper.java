@@ -1,18 +1,34 @@
 package com.helmes.sectorsapi.mapper;
 
-import com.helmes.sectorsapi.dto.SectorDTO;
+import com.helmes.sectorsapi.dto.SectorResponseDTO;
 import com.helmes.sectorsapi.model.Sector;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface SectorMapper {
+@Component
+public class SectorMapper {
 
-    @Mapping(target = "children", ignore = true)
-    @Mapping(source = "parent.id", target = "parentId")
-    SectorDTO toDto(Sector sector);
+    public SectorResponseDTO toDto(Sector sector) {
+        if (sector == null) {
+            return null;
+        }
 
-    List<SectorDTO> toDtoList(List<Sector> sectors);
+        return SectorResponseDTO.builder()
+            .id(sector.getId())
+            .name(sector.getName())
+            .parentId(sector.getParent() != null ? sector.getParent().getId() : null)
+            .sectorLevel(sector.getSectorLevel())
+            .build();
+    }
+
+    public List<SectorResponseDTO> toDtoList(List<Sector> sectors) {
+        if (sectors == null || sectors.isEmpty()) {
+            return List.of();
+        }
+
+        return sectors.stream()
+            .map(this::toDto)
+            .toList();
+    }
 }

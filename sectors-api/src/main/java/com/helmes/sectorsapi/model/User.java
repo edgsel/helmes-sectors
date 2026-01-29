@@ -50,13 +50,4 @@ public class User {
     protected void onUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
-
-    public static User toEntity(String username, String passwordHash) {
-        return User.builder()
-            .username(username)
-            .passwordHash(passwordHash)
-            .build();
-    }
 }
-
-

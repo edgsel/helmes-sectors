@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.SectorDTO;
+import com.helmes.sectorsapi.dto.SectorResponseDTO;
 import com.helmes.sectorsapi.service.SectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class SectorController {
     private final SectorService sectorService;
 
     @GetMapping("/tree")
-    public ResponseEntity<List<SectorDTO>> getSectorTree() {
+    public ResponseEntity<List<SectorResponseDTO>> getSectorTree() {
         return ResponseEntity.ok(sectorService.getSectorTree());
     }
 }

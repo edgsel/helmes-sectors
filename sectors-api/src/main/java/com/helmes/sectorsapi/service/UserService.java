@@ -4,7 +4,7 @@ import com.helmes.sectorsapi.dto.AuthResponseDTO;
 import com.helmes.sectorsapi.dto.UserAuthDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityExistsException;
-import com.helmes.sectorsapi.model.User;
+import com.helmes.sectorsapi.mapper.UserMapper;
 import com.helmes.sectorsapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +17,7 @@ import static com.helmes.sectorsapi.exception.ErrorCode.USER_EXISTS_ERROR;
 @AllArgsConstructor
 public class UserService {
 
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -27,7 +28,7 @@ public class UserService {
         }
 
         var hashedPassword = passwordEncoder.encode(userAuthDTO.password());
-        var user = userRepository.save(User.toEntity(userAuthDTO.username(), hashedPassword));
+        var user = userRepository.save(userMapper.toEntity(userAuthDTO.username(), hashedPassword));
 
         return new AuthResponseDTO(jwtService.generateToken(user));
     }

@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.service;
 
-import com.helmes.sectorsapi.dto.SectorDTO;
+import com.helmes.sectorsapi.dto.SectorResponseDTO;
 import com.helmes.sectorsapi.mapper.SectorMapper;
 import com.helmes.sectorsapi.repository.SectorRepository;
 import lombok.AllArgsConstructor;
@@ -18,23 +18,23 @@ public class SectorService {
     private final SectorRepository sectorRepository;
     private final SectorMapper sectorMapper;
 
-    public List<SectorDTO> getSectorTree() {
+    public List<SectorResponseDTO> getSectorTree() {
         var sectors = sectorRepository.findAllByOrderBySectorLevelAscIdAsc();
         var dtoList = sectorMapper.toDtoList(sectors);
 
         return toTree(dtoList);
     }
 
-    private List<SectorDTO> toTree(List<SectorDTO> dtos) {
-        var roots = new ArrayList<SectorDTO>();
-        var dtoMap = dtos.stream().collect(Collectors.toMap(SectorDTO::getId, Function.identity()));
+    private List<SectorResponseDTO> toTree(List<SectorResponseDTO> dtos) {
+        var roots = new ArrayList<SectorResponseDTO>();
+        var dtoMap = dtos.stream().collect(Collectors.toMap(SectorResponseDTO::id, Function.identity()));
 
-        for (SectorDTO dto : dtos) {
-            if (dto.getParentId() != null) {
-                var parentDto = dtoMap.get(dto.getParentId());
+        for (SectorResponseDTO dto : dtos) {
+            if (dto.parentId() != null) {
+                var parentDto = dtoMap.get(dto.parentId());
 
                 if (parentDto != null) {
-                    parentDto.getChildren().add(dto);
+                    parentDto.children().add(dto);
                 }
             } else {
                 roots.add(dto);
