@@ -12,7 +12,7 @@ paths:
             summary: Register new user
             operationId: registerUser
             tags:
-                - Users
+                - Authentication
             requestBody:
                 required: true
                 content:
@@ -37,7 +37,7 @@ paths:
             summary: Authenticate user
             operationId: loginUser
             tags:
-                - Users
+                - Authentication
             requestBody:
                 required: true
                 content:
@@ -103,6 +103,38 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
+    /api/v1/users/applications/{applicationId}:
+        get:
+            tags:
+                - Applications
+            summary: Get application by ID
+            description: Retrieves a specific application by ID for the authenticated user
+            operationId: getApplicationById
+            security:
+                -   bearerAuth: [ ]
+            parameters:
+                -   name: applicationId
+                    in: path
+                    required: true
+                    description: UUID of the application
+                    schema:
+                        type: string
+                        format: uuid
+                    example: "0b1cf96c-3efe-4ee5-a735-6837f13f686d"
+            responses:
+                '200':
+                    description: Application found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApplicationResponseDTO'
+                            examples:
+                                success:
+                                    value:
+                                        applicationId: "550e8400-e29b-41d4-a716-446655440000"
+                                        applicantName: "John Doe"
+                                        sectorIds: [ 1, 5, 12 ]
+                                        agreedToTerms: true
 
     /api/v1/sectors/tree:
         get:
@@ -133,6 +165,7 @@ components:
             type: http
             scheme: bearer
             bearerFormat: JWT
+            description: JWT token obtained from /api/v1/users/login endpoint
     schemas:
         UserAuthDTO:
             type: object

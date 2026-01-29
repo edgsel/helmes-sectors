@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.helmes.sectorsapi.exception.ErrorCode.APPLICATION_NOT_FOUND;
 import static com.helmes.sectorsapi.exception.ErrorCode.SECTORS_NOT_FOUND;
 
 @Service
@@ -29,12 +31,21 @@ public class ApplicationService {
     @Transactional
     public ApplicationResponseDTO saveApplication(User user, ApplicationDTO applicationDTO) {
         var sectors = sectorRepository.findAllByIdSet(applicationDTO.sectorIds());
-
         validateSectors(applicationDTO.sectorIds(), sectors);
 
         var application = applicationRepository.save(applicationMapper.toEntity(applicationDTO, user, sectors));
 
-        return applicationMapper.toResponseDTO(application, applicationDTO.sectorIds());
+        return applicationMapper.toResponseDTO(application);
+    }
+
+    public ApplicationResponseDTO fetchApplication(User currentUser, UUID applicationId) {
+        var application = applicationRepository.findByIdAndUserId(applicationId, currentUser.getId())
+            .orElseThrow(() -> new EntityNotFoundException(
+                "Application %s not found or access denied".formatted(applicationId),
+                APPLICATION_NOT_FOUND.name())
+            );
+
+        return applicationMapper.toResponseDTO(application);
     }
 
     private static void validateSectors(Set<Long> requestedSectorIds, Set<Sector> sectorEntities) {

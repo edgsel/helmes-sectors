@@ -8,6 +8,7 @@ import com.helmes.sectorsapi.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ApplicationMapper {
@@ -21,11 +22,11 @@ public class ApplicationMapper {
             .build();
     }
 
-    public ApplicationResponseDTO toResponseDTO(Application application, Set<Long> sectorIds) {
+    public ApplicationResponseDTO toResponseDTO(Application application) {
         return ApplicationResponseDTO.builder()
             .applicationId(application.getId())
             .applicantName(application.getApplicantName())
-            .sectorIds(sectorIds)
+            .sectorIds(application.getSectors().stream().map(Sector::getId).collect(Collectors.toSet()))
             .agreedToTerms(application.getAgreedToTerms())
             .build();
     }
