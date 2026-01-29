@@ -1,7 +1,7 @@
 package com.helmes.sectorsapi.service;
 
-import com.helmes.sectorsapi.dto.AuthResponseDTO;
-import com.helmes.sectorsapi.dto.UserAuthDTO;
+import com.helmes.sectorsapi.dto.response.AuthResponseDTO;
+import com.helmes.sectorsapi.dto.request.UserAuthDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityExistsException;
 import com.helmes.sectorsapi.mapper.UserMapper;

@@ -1,4 +1,4 @@
-package com.helmes.sectorsapi.dto;
+package com.helmes.sectorsapi.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

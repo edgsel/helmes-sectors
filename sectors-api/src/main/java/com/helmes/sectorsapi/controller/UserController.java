@@ -1,7 +1,7 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.AuthResponseDTO;
-import com.helmes.sectorsapi.dto.UserAuthDTO;
+import com.helmes.sectorsapi.dto.response.AuthResponseDTO;
+import com.helmes.sectorsapi.dto.request.UserAuthDTO;
 import com.helmes.sectorsapi.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

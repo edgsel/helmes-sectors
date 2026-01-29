@@ -1,7 +1,8 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.ApplicationDTO;
-import com.helmes.sectorsapi.dto.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.request.ApplicationDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.model.User;
 import com.helmes.sectorsapi.service.ApplicationService;
 import jakarta.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @Validated
@@ -27,15 +29,22 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
+    @GetMapping
+    public ResponseEntity<List<ApplicationSummaryResponseDTO>> getAllApplications(@AuthenticationPrincipal User user) {
+        var applications = applicationService.fetchAllApplications(user);
+
+        return ResponseEntity.ok(applications);
+    }
+
     @GetMapping("/{applicationId}")
     public ResponseEntity<ApplicationResponseDTO> getByApplicationId(@PathVariable UUID applicationId, @AuthenticationPrincipal User user) {
         var application = applicationService.fetchApplication(user, applicationId);
 
-        return ResponseEntity.ok().body(application);
+        return ResponseEntity.ok(application);
     }
 
     @PostMapping
-    public ResponseEntity<ApplicationResponseDTO> save(@AuthenticationPrincipal User user, @RequestBody @Valid ApplicationDTO applicationDTO) {
+    public ResponseEntity<ApplicationResponseDTO> save(@RequestBody @Valid ApplicationDTO applicationDTO, @AuthenticationPrincipal User user) {
        var application = applicationService.saveApplication(user, applicationDTO);
 
        return ResponseEntity.status(HttpStatus.CREATED).body(application);

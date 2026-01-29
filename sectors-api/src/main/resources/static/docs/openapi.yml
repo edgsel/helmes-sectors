@@ -32,6 +32,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
     /api/v1/users/login:
         post:
             summary: Authenticate user
@@ -53,6 +59,12 @@ paths:
                                 $ref: '#/components/schemas/AuthResponseDTO'
                 '401':
                     description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
                     content:
                         application/json:
                             schema:
@@ -91,18 +103,48 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
-                '403':
-                    description: Forbidden
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '404':
-                    description: Related entity not found
+                    description: Not found
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+        get:
+            tags:
+                - Applications
+            summary: Get all user applications (summary)
+            description: Retrieves a list of all applications for the authenticated user with basic information only
+            operationId: getAllApplications
+            security:
+                -   bearerAuth: [ ]
+            responses:
+                '200':
+                    description: List of application summaries retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/ApplicationSummaryResponseDTO'
+                '401':
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+
     /api/v1/users/applications/{applicationId}:
         get:
             tags:
@@ -128,13 +170,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ApplicationResponseDTO'
-                            examples:
-                                success:
-                                    value:
-                                        applicationId: "550e8400-e29b-41d4-a716-446655440000"
-                                        applicantName: "John Doe"
-                                        sectorIds: [ 1, 5, 12 ]
-                                        agreedToTerms: true
+                '401':
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
 
     /api/v1/sectors/tree:
         get:
@@ -152,7 +205,13 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/SectorDTO'
+                                    $ref: '#/components/schemas/SectorResponseDTO'
+                '401':
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '500':
                     description: Internal server error
                     content:
@@ -233,7 +292,29 @@ components:
                 agreedToTerms:
                     type: boolean
                     example: true
-        SectorDTO:
+        ApplicationSummaryResponseDTO:
+            type: object
+            required:
+                - id
+                - createdAt
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    description: Unique identifier of the application
+                    example: "550e8400-e29b-41d4-a716-446655440000"
+                createdAt:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the application was created
+                    example: "2026-01-29T10:30:00+02:00"
+                updatedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: Timestamp when the application was last updated (null if never updated)
+                    example: "2026-01-29T15:45:00+02:00"
+        SectorResponseDTO:
             type: object
             description: Sector tree node
             properties:
@@ -256,7 +337,7 @@ components:
                 children:
                     type: array
                     items:
-                        $ref: '#/components/schemas/SectorDTO'
+                        $ref: '#/components/schemas/SectorResponseDTO'
         ErrorResponseDTO:
             type: object
             properties:

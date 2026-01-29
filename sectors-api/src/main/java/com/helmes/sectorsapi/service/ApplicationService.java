@@ -1,7 +1,8 @@
 package com.helmes.sectorsapi.service;
 
-import com.helmes.sectorsapi.dto.ApplicationDTO;
-import com.helmes.sectorsapi.dto.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.request.ApplicationDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
 import com.helmes.sectorsapi.mapper.ApplicationMapper;
 import com.helmes.sectorsapi.model.Sector;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,6 +48,12 @@ public class ApplicationService {
             );
 
         return applicationMapper.toResponseDTO(application);
+    }
+
+    public List<ApplicationSummaryResponseDTO> fetchAllApplications(User currentUser) {
+        var applications = applicationRepository.findAllByUserIdOrderByCreatedAtDesc(currentUser.getId());
+
+        return applicationMapper.toApplicationSummaryListDTO(applications);
     }
 
     private static void validateSectors(Set<Long> requestedSectorIds, Set<Sector> sectorEntities) {

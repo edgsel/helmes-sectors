@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.service;
 
-import com.helmes.sectorsapi.dto.SectorResponseDTO;
+import com.helmes.sectorsapi.dto.response.SectorResponseDTO;
 import com.helmes.sectorsapi.mapper.SectorMapper;
 import com.helmes.sectorsapi.repository.SectorRepository;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class SectorService {
     private final SectorMapper sectorMapper;
 
     public List<SectorResponseDTO> getSectorTree() {
-        var sectors = sectorRepository.findAllByOrderBySectorLevelAscIdAsc();
+        var sectors = sectorRepository.findAllOrderBySectorLevelAndId();
         var dtoList = sectorMapper.toDtoList(sectors);
 
         return toTree(dtoList);

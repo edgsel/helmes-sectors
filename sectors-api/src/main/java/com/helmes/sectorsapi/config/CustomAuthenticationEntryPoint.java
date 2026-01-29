@@ -1,7 +1,7 @@
 package com.helmes.sectorsapi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.helmes.sectorsapi.dto.ErrorResponseDTO;
+import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

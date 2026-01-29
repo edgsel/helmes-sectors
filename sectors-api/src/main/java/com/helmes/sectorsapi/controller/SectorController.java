@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.SectorResponseDTO;
+import com.helmes.sectorsapi.dto.response.SectorResponseDTO;
 import com.helmes.sectorsapi.service.SectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

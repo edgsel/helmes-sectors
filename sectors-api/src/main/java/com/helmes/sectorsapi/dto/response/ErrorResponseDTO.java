@@ -1,4 +1,4 @@
-package com.helmes.sectorsapi.dto;
+package com.helmes.sectorsapi.dto.response;
 
 import lombok.Builder;
 

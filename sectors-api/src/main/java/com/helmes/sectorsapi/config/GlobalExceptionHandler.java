@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.config;
 
-import com.helmes.sectorsapi.dto.ErrorResponseDTO;
+import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;

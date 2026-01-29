@@ -1,4 +1,4 @@
-package com.helmes.sectorsapi.dto;
+package com.helmes.sectorsapi.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

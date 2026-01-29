@@ -1,12 +1,15 @@
 package com.helmes.sectorsapi.mapper;
 
-import com.helmes.sectorsapi.dto.ApplicationDTO;
-import com.helmes.sectorsapi.dto.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.request.ApplicationDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.model.Application;
 import com.helmes.sectorsapi.model.Sector;
 import com.helmes.sectorsapi.model.User;
+import com.helmes.sectorsapi.projection.ApplicationSummary;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,5 +32,19 @@ public class ApplicationMapper {
             .sectorIds(application.getSectors().stream().map(Sector::getId).collect(Collectors.toSet()))
             .agreedToTerms(application.getAgreedToTerms())
             .build();
+    }
+
+    public ApplicationSummaryResponseDTO toApplicationSummaryDTO(ApplicationSummary summary) {
+        return ApplicationSummaryResponseDTO.builder()
+            .id(summary.getId())
+            .createdAt(summary.getCreatedAt())
+            .updatedAt(summary.getUpdatedAt())
+            .build();
+    }
+
+    public List<ApplicationSummaryResponseDTO> toApplicationSummaryListDTO(List<ApplicationSummary> summaries) {
+        return summaries.stream()
+            .map(this::toApplicationSummaryDTO)
+            .toList();
     }
 }

@@ -1,4 +1,4 @@
-package com.helmes.sectorsapi.dto;
+package com.helmes.sectorsapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.AssertTrue;

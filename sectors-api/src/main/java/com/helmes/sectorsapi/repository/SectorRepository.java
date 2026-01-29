@@ -12,7 +12,8 @@ import java.util.Set;
 @Repository
 public interface SectorRepository extends JpaRepository<Sector, Long> {
 
-    List<Sector> findAllByOrderBySectorLevelAscIdAsc();
+    @Query("SELECT s FROM Sector s ORDER BY s.sectorLevel ASC, s.id ASC")
+    List<Sector> findAllOrderBySectorLevelAndId();
 
     @Query("SELECT s FROM Sector s WHERE s.id IN :ids")
     Set<Sector> findAllByIdSet(@Param("ids") Set<Long> ids);

@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.mapper;
 
-import com.helmes.sectorsapi.dto.SectorResponseDTO;
+import com.helmes.sectorsapi.dto.response.SectorResponseDTO;
 import com.helmes.sectorsapi.model.Sector;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,5 @@
 package com.helmes.sectorsapi.model;
 
-import com.helmes.sectorsapi.dto.ApplicationDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
