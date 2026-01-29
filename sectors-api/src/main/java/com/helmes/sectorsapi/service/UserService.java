@@ -35,7 +35,7 @@ public class UserService {
 
     public String authenticate(UserAuthDTO userAuthDTO) {
         var user = userRepository.findByUsername(userAuthDTO.getUsername())
-            .orElseThrow(() -> new EntityNotFoundException("User not found", USER_NOT_FOUND.name()));
+            .orElseThrow(() -> new EntityNotFoundException("User %s not found".formatted(userAuthDTO.getUsername()), USER_NOT_FOUND.name()));
 
         if (!passwordEncoder.matches(userAuthDTO.getPassword(), user.getPasswordHash())) {
             throw new BadCredentialsException("Invalid username or password", INVALID_CREDENTIALS.name());
