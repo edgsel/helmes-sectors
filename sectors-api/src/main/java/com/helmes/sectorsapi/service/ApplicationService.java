@@ -4,9 +4,9 @@ import com.helmes.sectorsapi.dto.ApplicationDTO;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
 import com.helmes.sectorsapi.model.Application;
 import com.helmes.sectorsapi.model.Sector;
+import com.helmes.sectorsapi.model.User;
 import com.helmes.sectorsapi.repository.ApplicationRepository;
 import com.helmes.sectorsapi.repository.SectorRepository;
-import com.helmes.sectorsapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,20 +16,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.helmes.sectorsapi.exception.ErrorCode.SECTORS_NOT_FOUND;
-import static com.helmes.sectorsapi.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
 public class ApplicationService {
 
-    private final UserRepository userRepository;
     private final SectorRepository sectorRepository;
     private final ApplicationRepository applicationRepository;
 
     @Transactional
-    public void saveApplication(Long userId, ApplicationDTO applicationDTO) {
-        var user = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException("User with ID %s not found".formatted(userId), USER_NOT_FOUND.name()));
+    public void saveApplication(User user, ApplicationDTO applicationDTO) {
         var sectors = sectorRepository.findAllByIdSet(applicationDTO.getSectorIds());
 
         validateSectors(applicationDTO.getSectorIds(), sectors);

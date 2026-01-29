@@ -3,22 +3,72 @@ info:
     title: Helmes Sectors API
     version: 1.0.0
 
+servers:
+    -   url: http://localhost:8080
+
 paths:
-    /api/v1/users/{userId}/applications:
+    /api/v1/users/register:
         post:
-            summary: Create application for user
-            description: Creates a new application for the specified user
+            summary: Register new user
+            operationId: registerUser
+            tags:
+                - Users
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserRegisterDTO'
+            responses:
+                '201':
+                    description: User successfully registered
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                format: int64
+                                description: Created user ID
+                '400':
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+    /api/v1/users/login:
+        post:
+            summary: Authenticate user
+            operationId: loginUser
+            tags:
+                - Users
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserAuthDTO'
+            responses:
+                '200':
+                    description: Authentication successful
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                description: JWT access token
+                '401':
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+
+    /api/v1/users/applications:
+        post:
+            summary: Create application for authenticated user
             operationId: createApplication
             tags:
                 - Applications
-            parameters:
-                -   name: userId
-                    in: path
-                    required: true
-                    description: User identifier
-                    schema:
-                        type: integer
-                        format: int64
+            security:
+                -   bearerAuth: [ ]
             requestBody:
                 required: true
                 content:
@@ -29,19 +79,25 @@ paths:
                 '201':
                     description: Application successfully created
                 '400':
-                    description: Invalid request
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+                '401':
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorDTO'
+                '403':
+                    description: Forbidden
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorDTO'
                 '404':
-                    description: Not Found
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorDTO'
-                '500':
-                    description: Internal server error
+                    description: Related entity not found
                     content:
                         application/json:
                             schema:
@@ -53,6 +109,8 @@ paths:
             operationId: getSectorTree
             tags:
                 - Sectors
+            security:
+                -   bearerAuth: [ ]
             responses:
                 '200':
                     description: Successful operation
@@ -62,12 +120,6 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/SectorDTO'
-                '400':
-                    description: Invalid request
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorDTO'
                 '500':
                     description: Internal server error
                     content:
@@ -75,7 +127,53 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorDTO'
 components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
     schemas:
+        UserAuthDTO:
+            type: object
+            required:
+                - username
+                - password
+            properties:
+                username:
+                    type: string
+                    minLength: 5
+                    maxLength: 20
+                    example: edgar123
+                password:
+                    type: string
+                    format: password
+                    minLength: 8
+                    example: strongPassword123
+        UserRegisterDTO:
+            allOf:
+                -   $ref: '#/components/schemas/UserAuthDTO'
+        ApplicationDTO:
+            type: object
+            required:
+                - applicantName
+                - sectorIds
+                - agreedToTerms
+            properties:
+                applicantName:
+                    type: string
+                    minLength: 2
+                    maxLength: 240
+                    example: John Doe
+                sectorIds:
+                    type: array
+                    minItems: 1
+                    items:
+                        type: integer
+                        format: int64
+                    example: [ 1, 5, 12 ]
+                agreedToTerms:
+                    type: boolean
+                    example: true
         SectorDTO:
             type: object
             description: Sector tree node
@@ -100,34 +198,12 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/SectorDTO'
-        ApplicationDTO:
-            type: object
-            required:
-                - applicantName
-                - sectorIds
-                - agreedToTerms
-            properties:
-                applicantName:
-                    type: string
-                    minLength: 2
-                    maxLength: 240
-                    example: John Doe
-                sectorIds:
-                    type: array
-                    minItems: 1
-                    items:
-                        type: integer
-                        format: int64
-                    example: [ 1, 5, 12 ]
-                agreedToTerms:
-                    type: boolean
-                    example: true
         ErrorDTO:
             type: object
             properties:
                 code:
                     type: string
-                    description: Server error code
+                    example: INVALID_CREDENTIALS
                 description:
                     type: string
-                    description: Detailed description of the error
+                    example: Invalid username or password

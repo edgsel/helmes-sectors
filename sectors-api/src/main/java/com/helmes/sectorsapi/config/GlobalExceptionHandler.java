@@ -1,6 +1,7 @@
 package com.helmes.sectorsapi.config;
 
 import com.helmes.sectorsapi.dto.ErrorDTO;
+import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,14 @@ public class GlobalExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_JSON)
             .body(buildErrorDTO(errorMessage, VALIDATION_ERROR.name()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDTO> handleBadCredentialsException(BadCredentialsException ex) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(buildErrorDTO(ex.getMessage(), ex.getCode()));
     }
 
     @ExceptionHandler(Exception.class)
