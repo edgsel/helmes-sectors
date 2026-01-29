@@ -1,7 +1,7 @@
 package com.helmes.sectorsapi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.helmes.sectorsapi.dto.ErrorDTO;
+import com.helmes.sectorsapi.dto.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        var errorDTO = ErrorDTO.builder()
+        var errorDTO = ErrorResponseDTO.builder()
             .description("Unauthorized: Invalid or missing authentication token")
             .code(ErrorCode.INVALID_CREDENTIALS.name())
             .build();

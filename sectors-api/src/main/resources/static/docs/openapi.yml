@@ -18,22 +18,20 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UserRegisterDTO'
+                            $ref: '#/components/schemas/UserAuthDTO'
             responses:
                 '201':
                     description: User successfully registered
                     content:
                         application/json:
                             schema:
-                                type: integer
-                                format: int64
-                                description: Created user ID
+                                $ref: '#/components/schemas/AuthResponseDTO'
                 '400':
                     description: Validation error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
     /api/v1/users/login:
         post:
             summary: Authenticate user
@@ -52,14 +50,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: string
-                                description: JWT access token
+                                $ref: '#/components/schemas/AuthResponseDTO'
                 '401':
                     description: Invalid credentials
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
 
     /api/v1/users/applications:
         post:
@@ -77,31 +74,35 @@ paths:
                             $ref: '#/components/schemas/ApplicationDTO'
             responses:
                 '201':
-                    description: Application successfully created
+                    description: Successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApplicationResponseDTO'
                 '400':
                     description: Validation error
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '401':
                     description: Unauthorized
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '403':
                     description: Forbidden
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '404':
                     description: Related entity not found
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
 
     /api/v1/sectors/tree:
         get:
@@ -125,7 +126,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ErrorDTO'
+                                $ref: '#/components/schemas/ErrorResponseDTO'
 components:
     securitySchemes:
         bearerAuth:
@@ -149,9 +150,6 @@ components:
                     format: password
                     minLength: 8
                     example: strongPassword123
-        UserRegisterDTO:
-            allOf:
-                -   $ref: '#/components/schemas/UserAuthDTO'
         ApplicationDTO:
             type: object
             required:
@@ -159,6 +157,34 @@ components:
                 - sectorIds
                 - agreedToTerms
             properties:
+                applicantName:
+                    type: string
+                    minLength: 2
+                    maxLength: 240
+                    example: John Doe
+                sectorIds:
+                    type: array
+                    minItems: 1
+                    items:
+                        type: integer
+                        format: int64
+                    example: [ 1, 5, 12 ]
+                agreedToTerms:
+                    type: boolean
+                    example: true
+        AuthResponseDTO:
+            type: object
+            properties:
+                jwt:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZGdhcjEyMyIsImlhdCI6MTc2OTcwNjQ5MSwiZXhwIjoxNzY5NzEwMDkxfQ.YjQAbuazxidgQNaQKjXPQO6yJOBV1l6xqc-eBMt3fBU
+        ApplicationResponseDTO:
+            type: object
+            properties:
+                applicationId:
+                    type: string
+                    format: UUID
+                    example: cd6e10b1-6a15-4333-a407-f03633f3d1ec
                 applicantName:
                     type: string
                     minLength: 2
@@ -198,7 +224,7 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/SectorDTO'
-        ErrorDTO:
+        ErrorResponseDTO:
             type: object
             properties:
                 code:

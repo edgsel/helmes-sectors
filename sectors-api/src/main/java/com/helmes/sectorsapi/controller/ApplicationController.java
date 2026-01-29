@@ -1,6 +1,7 @@
 package com.helmes.sectorsapi.controller;
 
 import com.helmes.sectorsapi.dto.ApplicationDTO;
+import com.helmes.sectorsapi.dto.ApplicationResponseDTO;
 import com.helmes.sectorsapi.model.User;
 import com.helmes.sectorsapi.service.ApplicationService;
 import jakarta.validation.Valid;
@@ -21,9 +22,9 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @PostMapping
-    public ResponseEntity<Void> save(@AuthenticationPrincipal User user, @RequestBody @Valid ApplicationDTO applicationDTO) {
-        applicationService.saveApplication(user, applicationDTO);
+    public ResponseEntity<ApplicationResponseDTO> save(@AuthenticationPrincipal User user, @RequestBody @Valid ApplicationDTO applicationDTO) {
+       var application = applicationService.saveApplication(user, applicationDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+       return ResponseEntity.status(HttpStatus.CREATED).body(application);
     }
 }

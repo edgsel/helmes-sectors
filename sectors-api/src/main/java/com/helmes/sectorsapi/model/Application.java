@@ -70,15 +70,6 @@ public class Application {
     protected void onUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
-
-    public static Application toEntity(ApplicationDTO applicationDTO, User user, Set<Sector> sectors) {
-        return Application.builder()
-            .user(user)
-            .applicantName(applicationDTO.getApplicantName())
-            .sectors(sectors)
-            .agreedToTerms(applicationDTO.getAgreedToTerms())
-            .build();
-    }
 }
 
 
