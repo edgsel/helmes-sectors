@@ -49,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 var user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new EntityNotFoundException("Username %s not found".formatted(username), USER_NOT_FOUND.name()));
+                    .orElseThrow(() -> new EntityNotFoundException("User %s not found".formatted(username), USER_NOT_FOUND.name()));
                 var auth = new UsernamePasswordAuthenticationToken(user, null, List.of());
 
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
