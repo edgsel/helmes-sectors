@@ -10,8 +10,6 @@ import java.util.UUID;
 
 public interface ApplicationRepository extends JpaRepository<Application, UUID> {
 
-    List<Application> findAllByUserId(Long userId);
-
     Optional<Application> findByIdAndUserId(UUID id, Long userId);
 
     List<ApplicationSummary> findAllByUserIdOrderByCreatedAtDesc(Long userId);
