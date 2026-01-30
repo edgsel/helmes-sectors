@@ -8,9 +8,9 @@ import { UserAuthDTO, AuthResponseDTO } from '../../shared/models/api.models';
 export class AuthService {
   private readonly API_URL = '/api/v1/users';
   private readonly TOKEN_KEY = 'jwt_token';
-
   private tokenSignal = signal<string | null>(this.getStoredToken());
-  private isAuthenticated = computed(() => !!this.tokenSignal());
+
+  public readonly isAuthenticated = computed(() => !!this.tokenSignal());
 
   constructor(private http: HttpClient, private router: Router) {}
 
