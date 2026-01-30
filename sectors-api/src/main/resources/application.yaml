@@ -6,13 +6,13 @@ server:
 
 springdoc:
     swagger-ui:
+        url: /docs/openapi.yml
         path: /swagger-ui.html
         enabled: true
     api-docs:
         resolve-schema-properties: true
         enabled: true
     paths-to-match: /**
-
 spring:
     application.name: sectors-api
     main.allow-bean-definition-overriding: true
@@ -42,3 +42,7 @@ spring:
         password: ${spring.datasource.password}
 
 logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+jwt:
+    secret-key: ${JWT_SECRET}
+    expiration-ms: 3600000 # 1h
