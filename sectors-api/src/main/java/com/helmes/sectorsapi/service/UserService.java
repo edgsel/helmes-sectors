@@ -24,7 +24,7 @@ public class UserService {
 
     public AuthResponseDTO register(UserAuthDTO userAuthDTO) {
         if (userRepository.existsByUsername(userAuthDTO.username())) {
-            throw new EntityExistsException("Username %s already exists", USER_EXISTS_ERROR.name());
+            throw new EntityExistsException("Username %s already exists".formatted(userAuthDTO.username()), USER_EXISTS_ERROR.name());
         }
 
         var hashedPassword = passwordEncoder.encode(userAuthDTO.password());

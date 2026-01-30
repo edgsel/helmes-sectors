@@ -2,6 +2,7 @@ package com.helmes.sectorsapi.config;
 
 import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
+import com.helmes.sectorsapi.exception.EntityExistsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(buildErrorResponseDTO(ex.getMessage(), ex.getCode()));
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleEntityExistsException(EntityExistsException ex) {
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT)
             .contentType(MediaType.APPLICATION_JSON)
             .body(buildErrorResponseDTO(ex.getMessage(), ex.getCode()));
     }
