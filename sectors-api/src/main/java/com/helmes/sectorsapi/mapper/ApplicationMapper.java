@@ -1,6 +1,6 @@
 package com.helmes.sectorsapi.mapper;
 
-import com.helmes.sectorsapi.dto.request.ApplicationDTO;
+import com.helmes.sectorsapi.dto.request.CreateApplicationDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.model.Application;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 @Component
 public class ApplicationMapper {
 
-    public Application toEntity(ApplicationDTO applicationDTO, User user, Set<Sector> sectors) {
+    public Application toEntity(CreateApplicationDTO applicationCreateDTO, User user, Set<Sector> sectors) {
         return Application.builder()
             .user(user)
-            .applicantName(applicationDTO.applicantName())
+            .applicantName(applicationCreateDTO.applicantName())
             .sectors(sectors)
-            .agreedToTerms(applicationDTO.agreedToTerms())
+            .agreedToTerms(applicationCreateDTO.agreedToTerms())
             .build();
     }
 
@@ -34,7 +34,7 @@ public class ApplicationMapper {
             .build();
     }
 
-    public ApplicationSummaryResponseDTO toApplicationSummaryDTO(ApplicationSummary summary) {
+    public ApplicationSummaryResponseDTO toSummaryResponseDTO(ApplicationSummary summary) {
         return ApplicationSummaryResponseDTO.builder()
             .id(summary.getId())
             .createdAt(summary.getCreatedAt())
@@ -42,9 +42,9 @@ public class ApplicationMapper {
             .build();
     }
 
-    public List<ApplicationSummaryResponseDTO> toApplicationSummaryListDTO(List<ApplicationSummary> summaries) {
+    public List<ApplicationSummaryResponseDTO> toSummaryResponseDTOList(List<ApplicationSummary> summaries) {
         return summaries.stream()
-            .map(this::toApplicationSummaryDTO)
+            .map(this::toSummaryResponseDTO)
             .toList();
     }
 }

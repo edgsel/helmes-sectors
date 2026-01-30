@@ -1,6 +1,7 @@
 package com.helmes.sectorsapi.controller;
 
-import com.helmes.sectorsapi.dto.request.ApplicationDTO;
+import com.helmes.sectorsapi.dto.request.CreateApplicationDTO;
+import com.helmes.sectorsapi.dto.request.UpdateApplicationDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.model.User;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,16 +39,30 @@ public class ApplicationController {
     }
 
     @GetMapping("/{applicationId}")
-    public ResponseEntity<ApplicationResponseDTO> getByApplicationId(@PathVariable UUID applicationId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<ApplicationResponseDTO> getByApplicationId(@AuthenticationPrincipal User user, @PathVariable UUID applicationId) {
         var application = applicationService.fetchApplication(user, applicationId);
 
         return ResponseEntity.ok(application);
     }
 
     @PostMapping
-    public ResponseEntity<ApplicationResponseDTO> save(@RequestBody @Valid ApplicationDTO applicationDTO, @AuthenticationPrincipal User user) {
-       var application = applicationService.saveApplication(user, applicationDTO);
+    public ResponseEntity<ApplicationResponseDTO> save(
+        @AuthenticationPrincipal User user,
+        @RequestBody @Valid CreateApplicationDTO applicationCreateDTO
+    ) {
+        var application = applicationService.saveApplication(user, applicationCreateDTO);
 
-       return ResponseEntity.status(HttpStatus.CREATED).body(application);
+        return ResponseEntity.status(HttpStatus.CREATED).body(application);
+    }
+
+    @PutMapping("/{applicationId}")
+    public ResponseEntity<ApplicationResponseDTO> update(
+        @AuthenticationPrincipal User user,
+        @PathVariable UUID applicationId,
+        @RequestBody @Valid UpdateApplicationDTO applicationDTO
+    ) {
+        var updated = applicationService.updateApplication(user, applicationId, applicationDTO);
+
+        return ResponseEntity.ok(updated);
     }
 }

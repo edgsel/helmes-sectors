@@ -10,9 +10,9 @@ import jakarta.validation.constraints.Size;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ApplicationDTO(
+public record CreateApplicationDTO(
     @NotBlank(message = "Name cannot be empty")
-    @Size(min = 2, max = 240)
+    @Size(min = 3, max = 100)
     String applicantName,
 
     @NotEmpty(message = "Selected sectors cannot be empty")

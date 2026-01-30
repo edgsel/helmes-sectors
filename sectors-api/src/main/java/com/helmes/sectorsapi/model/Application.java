@@ -13,17 +13,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +35,7 @@ import java.util.UUID;
 public class Application {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
@@ -50,7 +55,8 @@ public class Application {
         joinColumns = @JoinColumn(name = "application_id"),
         inverseJoinColumns = @JoinColumn(name = "sector_id")
     )
-    private Set<Sector> sectors;
+    @Builder.Default
+    private Set<Sector> sectors = new HashSet<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -58,6 +64,10 @@ public class Application {
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
+    public void update(String applicantName, Set<Sector> sectors) {
+        this.applicantName = applicantName;
+        this.sectors = sectors;
+    }
 
     @PrePersist
     protected void onCreate() {

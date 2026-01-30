@@ -83,7 +83,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ApplicationDTO'
+                            $ref: '#/components/schemas/CreateApplicationDTO'
             responses:
                 '201':
                     description: Successful operation
@@ -188,6 +188,54 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
+        put:
+            tags:
+                - Applications
+            summary: Update application by ID
+            description: Updates a specific application by ID for the authenticated user
+            operationId: updateApplicationById
+            security:
+                -   bearerAuth: [ ]
+            parameters:
+                -   name: applicationId
+                    in: path
+                    required: true
+                    description: UUID of the application
+                    schema:
+                        type: string
+                        format: uuid
+                    example: "0b1cf96c-3efe-4ee5-a735-6837f13f686d"
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateApplicationDTO'
+            responses:
+                '200':
+                    description: Application found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApplicationResponseDTO'
+                '401':
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '404':
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
+                '500':
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
 
     /api/v1/sectors/tree:
         get:
@@ -242,7 +290,7 @@ components:
                     format: password
                     minLength: 8
                     example: strongPassword123
-        ApplicationDTO:
+        CreateApplicationDTO:
             type: object
             required:
                 - applicantName
@@ -251,8 +299,8 @@ components:
             properties:
                 applicantName:
                     type: string
-                    minLength: 2
-                    maxLength: 240
+                    minLength: 3
+                    maxLength: 100
                     example: John Doe
                 sectorIds:
                     type: array
@@ -264,6 +312,24 @@ components:
                 agreedToTerms:
                     type: boolean
                     example: true
+        UpdateApplicationDTO:
+            type: object
+            required:
+                - applicantName
+                - sectorIds
+            properties:
+                applicantName:
+                    type: string
+                    minLength: 3
+                    maxLength: 100
+                    example: John Doe
+                sectorIds:
+                    type: array
+                    minItems: 1
+                    items:
+                        type: integer
+                        format: int64
+                    example: [ 1, 5, 12 ]
         AuthResponseDTO:
             type: object
             properties:
@@ -279,12 +345,9 @@ components:
                     example: cd6e10b1-6a15-4333-a407-f03633f3d1ec
                 applicantName:
                     type: string
-                    minLength: 2
-                    maxLength: 240
                     example: John Doe
                 sectorIds:
                     type: array
-                    minItems: 1
                     items:
                         type: integer
                         format: int64
