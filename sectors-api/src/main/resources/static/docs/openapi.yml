@@ -383,14 +383,14 @@ components:
             properties:
                 id:
                     type: integer
-                    format: int32
+                    format: int64
                     example: 6
                 name:
                     type: string
                     example: Food and Beverage
                 parentId:
                     type: integer
-                    format: int32
+                    format: int64
                     nullable: true
                     example: 1
                 sectorLevel:
