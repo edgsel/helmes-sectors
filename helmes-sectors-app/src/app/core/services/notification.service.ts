@@ -3,10 +3,8 @@ import { Notification } from '../../shared/models/api.models';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private AUTO_CLEAR_TIMEOUT_MS = 5000;
-  private notificationSignal = signal<Notification | null>(null);
-
-  notification = this.notificationSignal.asReadonly();
+  private readonly AUTO_CLEAR_TIMEOUT_MS = 5000;
+  private readonly notificationSignal = signal<Notification | null>(null);
 
   showSuccess(message: string): void {
     this.notificationSignal.set({ message, type: 'success'});
