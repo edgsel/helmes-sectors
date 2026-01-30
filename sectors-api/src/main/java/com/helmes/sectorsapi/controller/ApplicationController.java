@@ -32,7 +32,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @GetMapping
-    public ResponseEntity<List<ApplicationSummaryResponseDTO>> getAllApplications(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<ApplicationSummaryResponseDTO>> getAllByUser(@AuthenticationPrincipal User user) {
         var applications = applicationService.fetchAllApplications(user);
 
         return ResponseEntity.ok(applications);
