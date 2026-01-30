@@ -3,7 +3,6 @@ package com.helmes.sectorsapi.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -15,9 +14,4 @@ public record SectorResponseDTO(
     Integer sectorLevel,
     List<SectorResponseDTO> children
 ) {
-    public SectorResponseDTO {
-        if (children == null) {
-            children = new ArrayList<>();
-        }
-    }
 }

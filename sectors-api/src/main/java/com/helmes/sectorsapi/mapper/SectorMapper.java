@@ -4,6 +4,7 @@ import com.helmes.sectorsapi.dto.response.SectorResponseDTO;
 import com.helmes.sectorsapi.model.Sector;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -19,6 +20,7 @@ public class SectorMapper {
             .name(sector.getName())
             .parentId(sector.getParent() != null ? sector.getParent().getId() : null)
             .sectorLevel(sector.getSectorLevel())
+            .children(new ArrayList<>())
             .build();
     }
 
