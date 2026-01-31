@@ -13,11 +13,11 @@ import { ApplicationSummaryResponseDTO } from '../../../shared/models/api.models
   styleUrl: './application-list.component.scss'
 })
 export class ApplicationListComponent implements OnInit {
-  private applicationService = inject(ApplicationApiService);
-  private authService = inject(AuthService);
+  private readonly applicationService = inject(ApplicationApiService);
+  private readonly authService = inject(AuthService);
 
-  protected applications = signal<ApplicationSummaryResponseDTO[]>([]);
-  protected loading = signal(true);
+  protected readonly applications = signal<ApplicationSummaryResponseDTO[]>([]);
+  protected readonly loading = signal(true);
 
   ngOnInit(): void {
     this.loadApplications();
