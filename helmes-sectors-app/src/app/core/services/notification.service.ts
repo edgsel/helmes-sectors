@@ -22,6 +22,6 @@ export class NotificationService {
   }
 
   private autoClear(): void {
-    setTimeout(() => this.clear, this.AUTO_CLEAR_TIMEOUT_MS);
+    setTimeout(() => this.clear(), this.AUTO_CLEAR_TIMEOUT_MS);
   }
 }
