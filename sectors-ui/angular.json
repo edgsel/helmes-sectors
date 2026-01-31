@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "helmes-sectors-app": {
+    "sectors-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "helmes-sectors-app:build:production"
+              "buildTarget": "sectors-ui:build:production"
             },
             "development": {
-              "buildTarget": "helmes-sectors-app:build:development"
+              "buildTarget": "sectors-ui:build:development"
             }
           },
           "defaultConfiguration": "development",

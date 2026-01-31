@@ -1,0 +1,23 @@
+plugins {
+  id "com.github.node-gradle.node" version "7.1.0"
+}
+
+node {
+  version = "22.16.0"
+  npmVersion = "11.4.1"
+  download = true
+}
+
+tasks.register("start", NpmTask) {
+  group = "application"
+  description = "Starts Angular dev server"
+  dependsOn npmInstall
+  args = ["run", "start"]
+}
+
+tasks.register("buildFrontend", NpmTask) {
+  group = "build"
+  description = "Builds Angular for production"
+  dependsOn npmInstall
+  args = ["run", "build"]
+}
