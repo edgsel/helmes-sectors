@@ -15,15 +15,15 @@ import { SectorResponseDTO } from '../../../shared/models/api.models';
   styleUrl: './application-edit.component.scss'
 })
 export class ApplicationEditComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private applicationService = inject(ApplicationApiService);
-  private sectorService = inject(SectorApiService);
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly applicationService = inject(ApplicationApiService);
+  private readonly sectorService = inject(SectorApiService);
 
-  protected sectors = signal<SectorResponseDTO[]>([]);
-  protected pageLoading = signal(true);
-  protected saving = signal(false);
+  protected readonly sectors = signal<SectorResponseDTO[]>([]);
+  protected readonly pageLoading = signal(true);
+  protected readonly saving = signal(false);
 
   private applicationId = '';
 
