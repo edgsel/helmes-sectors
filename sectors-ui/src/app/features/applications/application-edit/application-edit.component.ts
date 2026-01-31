@@ -27,7 +27,12 @@ export class ApplicationEditComponent implements OnInit {
   protected readonly pageLoading = signal(true);
   protected readonly saving = signal(false);
   protected readonly form = this.fb.nonNullable.group({
-    applicantName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+    applicantName: ['', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+      Validators.pattern(/^[\p{L} '-]+$/u),
+    ]],
     sectorIds: [[] as number[], [Validators.required, Validators.minLength(1)]]
   });
 

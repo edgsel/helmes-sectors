@@ -24,7 +24,12 @@ export class ApplicationCreateComponent implements OnInit {
   protected readonly sectors = signal<SectorResponseDTO[]>([]);
   protected readonly loading = signal(false);
   protected readonly form = this.fb.nonNullable.group({
-    applicantName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+    applicantName: ['', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+      Validators.pattern(/^[\p{L} '-]+$/u),
+    ]],
     sectorIds: [[] as number[], [Validators.required, Validators.minLength(1)]],
     agreedToTerms: [false, Validators.requiredTrue]
   });
