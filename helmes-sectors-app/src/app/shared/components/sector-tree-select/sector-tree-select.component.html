@@ -2,7 +2,7 @@
   multiple
   [disabled]="disabled"
   (change)="onSelectionChange($event)">
-  @for (sector of flatSectors; track sector.id) {
+  @for (sector of flatSectors(); track sector.id) {
     @if (sector.isLeaf) {
       <option [value]="sector.id" [selected]="isSelected(sector.id)">
         {{ getIndent(sector.level) }}{{ sector.name }}

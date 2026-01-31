@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, forwardRef, input, computed } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SectorResponseDTO } from '../../models/api.models';
 
@@ -23,13 +23,11 @@ interface FlatSector {
   styleUrl: './sector-tree-select.component.scss'
 })
 export class SectorTreeSelectComponent implements ControlValueAccessor {
-  @Input() set sectors(value: SectorResponseDTO[]) {
-    this.flatSectors = this.flattenTree(value);
-  }
-
-  protected flatSectors: FlatSector[] = [];
   protected selectedIds: number[] = [];
   protected disabled = false;
+  protected flatSectors = computed(() => this.flattenTree(this.sectors()));
+
+  public sectors = input<SectorResponseDTO[]>([]);
 
   private onChange: (value: number[]) => void = () => {
   };
@@ -77,6 +75,7 @@ export class SectorTreeSelectComponent implements ControlValueAccessor {
 
     for (const sector of sectors) {
       const isLeaf = !sector.children || sector.children.length === 0;
+
       result.push({
         id: sector.id,
         name: sector.name,

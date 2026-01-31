@@ -7,5 +7,5 @@ import { NotificationService } from '../../../core/services/notification.service
   styleUrl: './notification.component.scss',
 })
 export class NotificationComponent {
-  protected notificationService = inject(NotificationService);
+  protected readonly notificationService = inject(NotificationService);
 }
