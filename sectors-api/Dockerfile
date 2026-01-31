@@ -1,8 +1,8 @@
 # Build stage
 FROM gradle:9.2.1-jdk25-alpine AS build
 WORKDIR /app
-COPY ../build.gradle settings.gradle ./
-COPY ../gradle ./gradle
+COPY build.gradle settings.gradle ./
+COPY gradle ./gradle
 COPY src ./src
 RUN gradle build -x test --no-daemon
 

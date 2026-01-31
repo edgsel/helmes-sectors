@@ -1,5 +1,0 @@
-tasks.register("dev") {
-    group = "application"
-    description = "Starts both backend and frontend"
-    dependsOn ":sectors-api:bootRun", ":sectors-ui:start"
-}

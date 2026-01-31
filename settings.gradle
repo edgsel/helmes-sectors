@@ -1,3 +1,0 @@
-rootProject.name = "helmes-sectors"
-include "sectors-api"
-include "sectors-ui"
