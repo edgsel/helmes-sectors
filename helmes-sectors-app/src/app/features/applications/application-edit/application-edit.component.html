@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>Edit application</h1>
+
+  @if (pageLoading()) {
+    <p class="loading">Loading...</p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="applicantName">Applicant Name *</label>
+        <input
+          id="applicantName"
+          type="text"
+          formControlName="applicantName">
+        @if (form.controls.applicantName.invalid && form.controls.applicantName.touched) {
+          <span class="error-text">Required (3-100 characters)</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Sectors *</label>
+        <app-sector-tree-select
+          [sectors]="sectors()"
+          formControlName="sectorIds">
+        </app-sector-tree-select>
+        @if (form.controls.sectorIds.invalid && form.controls.sectorIds.touched) {
+          <span class="error-text">Select at least one sector</span>
+        }
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-save" [disabled]="saving()">
+          {{ saving() ? 'Saving...' : 'Save' }}
+        </button>
+        <button type="button" class="btn-back" (click)="goBack()">
+          Back to main page
+        </button>
+      </div>
+    </form>
+  }
+</div>
