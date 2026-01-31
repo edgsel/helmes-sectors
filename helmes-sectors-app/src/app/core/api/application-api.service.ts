@@ -9,7 +9,7 @@ import {
 } from '../../shared/models/api.models';
 
 @Injectable({ providedIn: 'root' })
-export class ApplicationService {
+export class ApplicationApiService {
   private readonly API_URL = '/api/v1/users/applications';
 
   constructor(private http: HttpClient) {

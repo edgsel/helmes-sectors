@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { SectorResponseDTO } from '../../shared/models/api.models';
 
 @Injectable({ providedIn: 'root' })
-export class SectorService {
+export class SectorApiService {
   private readonly API_URL = '/api/v1/sectors/tree';
 
   constructor(private http: HttpClient) { }

@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { ApplicationService } from '../../../core/services/application.service';
-import { SectorService } from '../../../core/services/sector.service';
+import { ApplicationApiService } from '../../../core/api/application-api.service';
+import { SectorApiService } from '../../../core/api/sector-api.service';
 import { SectorTreeSelectComponent } from '../../../shared/components/sector-tree-select/sector-tree-select.component';
 import { SectorResponseDTO } from '../../../shared/models/api.models';
 
@@ -18,8 +18,8 @@ export class ApplicationEditComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private applicationService = inject(ApplicationService);
-  private sectorService = inject(SectorService);
+  private applicationService = inject(ApplicationApiService);
+  private sectorService = inject(SectorApiService);
 
   protected sectors = signal<SectorResponseDTO[]>([]);
   protected pageLoading = signal(true);

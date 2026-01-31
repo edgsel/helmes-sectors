@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { ApplicationService } from '../../../core/services/application.service';
+import { ApplicationApiService } from '../../../core/api/application-api.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ApplicationSummaryResponseDTO } from '../../../shared/models/api.models';
 
@@ -13,7 +13,7 @@ import { ApplicationSummaryResponseDTO } from '../../../shared/models/api.models
   styleUrl: './application-list.component.scss'
 })
 export class ApplicationListComponent implements OnInit {
-  private applicationService = inject(ApplicationService);
+  private applicationService = inject(ApplicationApiService);
   private authService = inject(AuthService);
 
   protected applications = signal<ApplicationSummaryResponseDTO[]>([]);
