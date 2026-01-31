@@ -11,11 +11,11 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  protected loading = signal(false);
+  protected readonly loading = signal(false);
 
   protected form = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
