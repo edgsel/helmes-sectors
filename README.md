@@ -36,7 +36,7 @@ JWT_SECRET=your-secret-key-min-32-characters-long
 SPRING_PROFILES_ACTIVE=local
 ```
 
-#### Export env variables
+#### Export env variables (for local development)
 
 Linux/macOS
 ```bash
