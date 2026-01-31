@@ -1,6 +1,6 @@
 # Helmes Sectors Application
 
-A full-stack application for managing sector-based applications with user authentication.
+A full-stack application for managing sector-based applications with user authentication
 
 ## Tech Stack
 
@@ -29,6 +29,7 @@ POSTGRES_USERNAME=your_username
 POSTGRES_PASSWORD=your_password
 
 # JWT
+# Generate with: openssl rand -base64 32
 JWT_SECRET=your-secret-key-min-32-characters-long
 
 # Spring Profile (local | docker)
