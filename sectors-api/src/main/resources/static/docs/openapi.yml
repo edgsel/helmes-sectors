@@ -412,7 +412,5 @@ components:
             properties:
                 code:
                     type: string
-                    example: INVALID_CREDENTIALS
                 description:
                     type: string
-                    example: Invalid username or password
