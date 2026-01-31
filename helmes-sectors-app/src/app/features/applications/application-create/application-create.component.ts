@@ -14,13 +14,13 @@ import { SectorResponseDTO } from '../../../shared/models/api.models';
   styleUrl: './application-create.component.scss'
 })
 export class ApplicationCreateComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private applicationService = inject(ApplicationApiService);
-  private sectorService = inject(SectorApiService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly applicationService = inject(ApplicationApiService);
+  private readonly sectorService = inject(SectorApiService);
 
-  protected sectors = signal<SectorResponseDTO[]>([]);
-  protected loading = signal(false);
+  protected readonly sectors = signal<SectorResponseDTO[]>([]);
+  protected readonly loading = signal(false);
 
   protected form = this.fb.nonNullable.group({
     applicantName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
