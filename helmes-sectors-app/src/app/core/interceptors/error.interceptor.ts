@@ -8,6 +8,7 @@ import { ErrorResponseDTO } from '../../shared/models/api.models';
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const notificationService = inject(NotificationService);
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !includesAuthUrl(req.url)) {

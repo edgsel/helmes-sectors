@@ -52,6 +52,6 @@ export class ApplicationCreateComponent implements OnInit {
     if (this.form.dirty && !confirm('Are you sure you want to exit?')) {
       return;
     }
-    this.router.navigate(['/applications']);
+    this.router.navigate(['/applications']).then();
   }
 }

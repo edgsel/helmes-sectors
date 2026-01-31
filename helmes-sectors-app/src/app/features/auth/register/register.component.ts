@@ -35,7 +35,7 @@ export class RegisterComponent {
     this.authService.register(this.form.getRawValue()).subscribe({
       next: () => {
         this.notificationService.showSuccess('Registration successful!');
-        this.router.navigate(['/applications']);
+        this.router.navigate(['/applications']).then();
       },
       error: () => this.loading.set(false)
     });

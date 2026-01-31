@@ -28,7 +28,7 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
 
     this.tokenSignal.set(null);
-    this.router.navigate(['/login']).then(_ => console.log("User logged out"));
+    this.router.navigate(['/login']).then();
   }
 
   getToken(): string | null {
