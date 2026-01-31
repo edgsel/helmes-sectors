@@ -5,6 +5,7 @@ import { ApplicationApiService } from '../../../core/api/application-api.service
 import { SectorApiService } from '../../../core/api/sector-api.service';
 import { SectorTreeSelectComponent } from '../../../shared/components/sector-tree-select/sector-tree-select.component';
 import { SectorResponseDTO } from '../../../shared/models/api.models';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-application-create',
@@ -18,6 +19,7 @@ export class ApplicationCreateComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly applicationService = inject(ApplicationApiService);
   private readonly sectorService = inject(SectorApiService);
+  private readonly notificationService = inject(NotificationService);
 
   protected readonly sectors = signal<SectorResponseDTO[]>([]);
   protected readonly loading = signal(false);
@@ -42,7 +44,10 @@ export class ApplicationCreateComponent implements OnInit {
     this.loading.set(true);
 
     this.applicationService.create(this.form.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/applications']),
+      next: () => {
+        this.notificationService.showSuccess('Application created successfully!');
+        this.router.navigate(['/applications']).then();
+      },
       error: () => this.loading.set(false)
     });
   }

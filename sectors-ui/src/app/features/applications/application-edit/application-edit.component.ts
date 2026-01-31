@@ -6,6 +6,7 @@ import { ApplicationApiService } from '../../../core/api/application-api.service
 import { SectorApiService } from '../../../core/api/sector-api.service';
 import { SectorTreeSelectComponent } from '../../../shared/components/sector-tree-select/sector-tree-select.component';
 import { SectorResponseDTO } from '../../../shared/models/api.models';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-application-edit',
@@ -20,6 +21,7 @@ export class ApplicationEditComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly applicationService = inject(ApplicationApiService);
   private readonly sectorService = inject(SectorApiService);
+  private readonly notificationService = inject(NotificationService);
 
   protected readonly sectors = signal<SectorResponseDTO[]>([]);
   protected readonly pageLoading = signal(true);
@@ -60,7 +62,10 @@ export class ApplicationEditComponent implements OnInit {
     this.saving.set(true);
 
     this.applicationService.update(this.applicationId, this.form.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/applications']),
+      next: () => {
+        this.notificationService.showSuccess('Application updated successfully!');
+        this.router.navigate(['/applications']).then();
+      },
       error: () => this.saving.set(false)
     });
   }
