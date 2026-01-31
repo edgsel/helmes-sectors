@@ -24,13 +24,12 @@ export class ApplicationEditComponent implements OnInit {
   protected readonly sectors = signal<SectorResponseDTO[]>([]);
   protected readonly pageLoading = signal(true);
   protected readonly saving = signal(false);
-
-  private applicationId = '';
-
-  protected form = this.fb.nonNullable.group({
+  protected readonly form = this.fb.nonNullable.group({
     applicantName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     sectorIds: [[] as number[], [Validators.required, Validators.minLength(1)]]
   });
+
+  private applicationId = '';
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params['id'];

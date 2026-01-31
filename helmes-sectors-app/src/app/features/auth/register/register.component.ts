@@ -12,14 +12,14 @@ import { NotificationService } from '../../../core/services/notification.service
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private notificationService = inject(NotificationService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
 
-  protected loading = signal(false);
+  protected readonly loading = signal(false);
 
-  protected form = this.fb.nonNullable.group({
+  protected readonly form = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
     password: ['', [Validators.required, Validators.minLength(8)]]
   });

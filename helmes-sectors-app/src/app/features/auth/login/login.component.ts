@@ -17,7 +17,7 @@ export class LoginComponent {
 
   protected readonly loading = signal(false);
 
-  protected form = this.fb.nonNullable.group({
+  protected readonly form = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
     password: ['', [Validators.required, Validators.minLength(8)]]
   });
