@@ -87,8 +87,9 @@ public class ApplicationService {
             throw new SectorsNotFoundException("Sectors not found: " + missingIds);
         }
 
-        if (sectorRepository.anyHasChildren(requestedSectorIds)) {
-            throw new ParentSectorSelectedException("Cannot select parent sectors");
+        var parentIds = sectorRepository.findParentSectorIds(requestedSectorIds);
+        if (!parentIds.isEmpty()) {
+            throw new ParentSectorSelectedException("Cannot select parent sectors: " + parentIds);
         }
     }
 }

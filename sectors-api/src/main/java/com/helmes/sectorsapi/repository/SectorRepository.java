@@ -19,10 +19,10 @@ public interface SectorRepository extends JpaRepository<Sector, Long> {
     Set<Sector> findAllByIdSet(@Param("ids") Set<Long> ids);
 
     @Query("""
-        SELECT COUNT(s) > 0 FROM Sector s
+        SELECT s.id FROM Sector s
         WHERE s.id IN :ids
         AND EXISTS (SELECT 1 FROM Sector child WHERE child.parent = s)
         """
     )
-    boolean anyHasChildren(@Param("ids") Set<Long> ids);
+    Set<Long> findParentSectorIds(@Param("ids") Set<Long> ids);
 }
