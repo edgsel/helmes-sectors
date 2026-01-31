@@ -26,7 +26,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   )
 };
 
-// check later
 const includesAuthUrl = (reqUrl: string): boolean => {
   return reqUrl.includes('/login') || reqUrl.includes('/register');
 }
