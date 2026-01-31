@@ -15,8 +15,8 @@ export class ApplicationService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<ApplicationSummaryResponseDTO> {
-    return this.http.get<ApplicationSummaryResponseDTO>(this.API_URL);
+  getAll(): Observable<ApplicationSummaryResponseDTO[]> {
+    return this.http.get<ApplicationSummaryResponseDTO[]>(this.API_URL);
   }
 
   getById(id: string): Observable<ApplicationResponseDTO> {
