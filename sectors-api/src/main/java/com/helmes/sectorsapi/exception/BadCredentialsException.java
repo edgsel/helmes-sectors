@@ -2,13 +2,15 @@ package com.helmes.sectorsapi.exception;
 
 import lombok.Getter;
 
+import static com.helmes.sectorsapi.exception.ErrorCode.INVALID_CREDENTIALS;
+
 @Getter
 public class BadCredentialsException extends RuntimeException {
 
     private final String code;
 
-    public BadCredentialsException(String description, String code) {
+    public BadCredentialsException(String description) {
         super(description);
-        this.code = code;
+        this.code = INVALID_CREDENTIALS.name();
     }
 }

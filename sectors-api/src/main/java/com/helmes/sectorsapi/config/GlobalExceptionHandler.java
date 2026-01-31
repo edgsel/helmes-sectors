@@ -2,8 +2,9 @@ package com.helmes.sectorsapi.config;
 
 import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
-import com.helmes.sectorsapi.exception.EntityExistsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
+import com.helmes.sectorsapi.exception.ParentSectorSelectedException;
+import com.helmes.sectorsapi.exception.UserExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,8 +30,8 @@ public class GlobalExceptionHandler {
             .body(buildErrorResponseDTO(ex.getMessage(), ex.getCode()));
     }
 
-    @ExceptionHandler(EntityExistsException.class)
-    public ResponseEntity<ErrorResponseDTO> handleEntityExistsException(EntityExistsException ex) {
+    @ExceptionHandler(UserExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleEntityExistsException(UserExistsException ex) {
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
             .contentType(MediaType.APPLICATION_JSON)
@@ -49,6 +50,14 @@ public class GlobalExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_JSON)
             .body(buildErrorResponseDTO(errorMessage, VALIDATION_ERROR.name()));
+    }
+
+    @ExceptionHandler(ParentSectorSelectedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleParentSectorSelectedException(ParentSectorSelectedException ex) {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(buildErrorResponseDTO(ex.getMessage(), ex.getCode()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)

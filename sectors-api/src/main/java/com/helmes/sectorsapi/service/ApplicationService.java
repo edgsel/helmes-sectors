@@ -4,7 +4,9 @@ import com.helmes.sectorsapi.dto.request.CreateApplicationDTO;
 import com.helmes.sectorsapi.dto.request.UpdateApplicationDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
-import com.helmes.sectorsapi.exception.EntityNotFoundException;
+import com.helmes.sectorsapi.exception.ApplicationNotFoundException;
+import com.helmes.sectorsapi.exception.ParentSectorSelectedException;
+import com.helmes.sectorsapi.exception.SectorsNotFoundException;
 import com.helmes.sectorsapi.mapper.ApplicationMapper;
 import com.helmes.sectorsapi.model.Application;
 import com.helmes.sectorsapi.model.Sector;
@@ -20,9 +22,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static com.helmes.sectorsapi.exception.ErrorCode.APPLICATION_NOT_FOUND;
-import static com.helmes.sectorsapi.exception.ErrorCode.SECTORS_NOT_FOUND;
 
 @Service
 @AllArgsConstructor
@@ -66,10 +65,7 @@ public class ApplicationService {
 
     private Application getApplicationByIdAndUserId(UUID applicationId, Long userId) {
         return applicationRepository.findByIdAndUserId(applicationId, userId)
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Application %s not found or access denied".formatted(applicationId),
-                APPLICATION_NOT_FOUND.name())
-            );
+            .orElseThrow(() -> new ApplicationNotFoundException("Application %s not found or access denied".formatted(applicationId)));
     }
 
     private Set<Sector> fetchAndValidateSectors(Set<Long> sectorIds) {
@@ -79,7 +75,7 @@ public class ApplicationService {
         return sectors;
     }
 
-    private static void validateSectors(Set<Long> requestedSectorIds, Set<Sector> foundSectors) {
+    private void validateSectors(Set<Long> requestedSectorIds, Set<Sector> foundSectors) {
         if (requestedSectorIds.size() != foundSectors.size()) {
             var foundIds = foundSectors.stream()
                 .map(Sector::getId)
@@ -88,7 +84,11 @@ public class ApplicationService {
             var missingIds = new HashSet<>(requestedSectorIds);
             missingIds.removeAll(foundIds);
 
-            throw new EntityNotFoundException("Sectors not found: " + missingIds, SECTORS_NOT_FOUND.name());
+            throw new SectorsNotFoundException("Sectors not found: " + missingIds);
+        }
+
+        if (sectorRepository.anyHasChildren(requestedSectorIds)) {
+            throw new ParentSectorSelectedException("Cannot select parent sectors");
         }
     }
 }
