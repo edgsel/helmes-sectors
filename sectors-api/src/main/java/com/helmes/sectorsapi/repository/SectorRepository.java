@@ -17,4 +17,12 @@ public interface SectorRepository extends JpaRepository<Sector, Long> {
 
     @Query("SELECT s FROM Sector s WHERE s.id IN :ids")
     Set<Sector> findAllByIdSet(@Param("ids") Set<Long> ids);
+
+    @Query("""
+        SELECT s.id FROM Sector s
+        WHERE s.id IN :ids
+        AND EXISTS (SELECT 1 FROM Sector child WHERE child.parent = s)
+        """
+    )
+    Set<Long> findParentSectorIds(@Param("ids") Set<Long> ids);
 }

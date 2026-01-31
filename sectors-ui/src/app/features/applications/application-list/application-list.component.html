@@ -1,0 +1,37 @@
+<div class="container">
+  <header class="page-header">
+    <h1>All Applications</h1>
+    <button class="btn-logout" (click)="logout()">Logout</button>
+  </header>
+
+  <a routerLink="/applications/new" class="btn-primary">Apply new application</a>
+
+  @if (loading()) {
+    <p class="loading">Loading...</p>
+  } @else if (applications().length === 0) {
+    <p class="empty">No applications yet</p>
+  } @else {
+    <table>
+      <thead>
+      <tr>
+        <th>Application ID</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (app of applications(); track app.id) {
+          <tr>
+            <td class="id-cell">{{ app.id }}</td>
+            <td>{{ app.createdAt | date:'medium' }}</td>
+            <td>{{ app.updatedAt ? (app.updatedAt | date:'medium') : '—' }}</td>
+            <td>
+              <a [routerLink]="['/applications', app.id, 'edit']" class="edit-link">Edit</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

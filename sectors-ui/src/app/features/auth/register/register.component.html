@@ -1,0 +1,35 @@
+<div class="auth-container">
+  <h1>Register</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        autocomplete="username">
+      @if (form.controls.username.invalid && form.controls.username.touched) {
+        <span class="error-text">Username is required (5-20 characters)</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password">
+      @if (form.controls.password.invalid && form.controls.password.touched) {
+        <span class="error-text">Password is required (min 8 characters)</span>
+      }
+    </div>
+
+    <button type="submit" [disabled]="loading()">
+      {{ loading() ? 'Loading...' : 'Register' }}
+    </button>
+  </form>
+
+  <p class="link">Already have an account? <a routerLink="/login">Login</a></p>
+</div>

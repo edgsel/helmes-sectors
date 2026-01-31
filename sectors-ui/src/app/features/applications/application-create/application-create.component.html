@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Create new application</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="applicantName">Applicant Name *</label>
+      <input
+        id="applicantName"
+        type="text"
+        formControlName="applicantName">
+      @if (form.controls.applicantName.invalid && form.controls.applicantName.touched) {
+        <span class="error-text">Required (3-100 characters)</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Sectors *</label>
+      <app-sector-tree-select
+        [sectors]="sectors()"
+        formControlName="sectorIds">
+      </app-sector-tree-select>
+      @if (form.controls.sectorIds.invalid && form.controls.sectorIds.touched) {
+        <span class="error-text">Enter a valid name (3-100 characters, letters only)</span>
+      }
+    </div>
+
+    <div class="form-group checkbox">
+      <label>
+        <input type="checkbox" formControlName="agreedToTerms">
+        <span>Agree to terms *</span>
+      </label>
+      @if (form.controls.agreedToTerms.invalid && form.controls.agreedToTerms.touched) {
+        <span class="error-text">You must agree to terms</span>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn-save" [disabled]="loading()">
+        {{ loading() ? 'Saving...' : 'Save' }}
+      </button>
+      <button type="button" class="btn-back" (click)="goBack()">
+        Back to main page
+      </button>
+    </div>
+  </form>
+</div>

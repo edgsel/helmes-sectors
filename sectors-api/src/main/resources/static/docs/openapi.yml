@@ -32,6 +32,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponseDTO'
+                '409':
+                    description: User already exists
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponseDTO'
                 '500':
                     description: Internal server error
                     content:
@@ -406,7 +412,13 @@ components:
             properties:
                 code:
                     type: string
-                    example: INVALID_CREDENTIALS
                 description:
                     type: string
-                    example: Invalid username or password
+                    enum:
+                        - APPLICATION_NOT_FOUND
+                        - SECTORS_NOT_FOUND
+                        - INVALID_CREDENTIALS
+                        - PARENT_SECTOR_SELECTED
+                        - USER_EXISTS_ERROR
+                        - VALIDATION_ERROR
+                        - INTERNAL_ERROR
