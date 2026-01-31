@@ -3,6 +3,7 @@ package com.helmes.sectorsapi.config;
 import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
+import com.helmes.sectorsapi.exception.ErrorCode;
 import com.helmes.sectorsapi.exception.ParentSectorSelectedException;
 import com.helmes.sectorsapi.exception.UserExistsException;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(buildErrorResponseDTO(errorMessage, VALIDATION_ERROR.name()));
+            .body(buildErrorResponseDTO(errorMessage, VALIDATION_ERROR));
     }
 
     @ExceptionHandler(ParentSectorSelectedException.class)
@@ -75,10 +76,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(buildErrorResponseDTO("Internal Server Error", INTERNAL_ERROR.name()));
+            .body(buildErrorResponseDTO("Internal Server Error", INTERNAL_ERROR));
     }
 
-    private static ErrorResponseDTO buildErrorResponseDTO(String description, String code) {
+    private static ErrorResponseDTO buildErrorResponseDTO(String description, ErrorCode code) {
         return ErrorResponseDTO.builder()
             .description(description)
             .code(code)

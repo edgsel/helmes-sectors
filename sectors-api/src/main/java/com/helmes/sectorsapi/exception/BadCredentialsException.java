@@ -7,10 +7,10 @@ import static com.helmes.sectorsapi.exception.ErrorCode.INVALID_CREDENTIALS;
 @Getter
 public class BadCredentialsException extends RuntimeException {
 
-    private final String code;
+    private final ErrorCode code;
 
     public BadCredentialsException(String description) {
         super(description);
-        this.code = INVALID_CREDENTIALS.name();
+        this.code = INVALID_CREDENTIALS;
     }
 }

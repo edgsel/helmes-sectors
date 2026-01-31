@@ -31,7 +31,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         var errorDTO = ErrorResponseDTO.builder()
             .description("Unauthorized: Invalid or missing authentication token")
-            .code(ErrorCode.INVALID_CREDENTIALS.name())
+            .code(ErrorCode.INVALID_CREDENTIALS)
             .build();
 
         objectMapper.writeValue(response.getWriter(), errorDTO);
