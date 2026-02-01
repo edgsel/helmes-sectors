@@ -16,6 +16,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest(classes = SectorsApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class BaseIntegrationTest {
 
+    protected static final String USER_REGISTER_URI = "/api/v1/users/register";
+    protected static final String USER_LOGIN_URI = "/api/v1/users/login";
+    protected static final String SECTORS_TREE_URI = "/api/v1/sectors/tree";
+
     @Autowired
     protected WebTestClient webTestClient;
 

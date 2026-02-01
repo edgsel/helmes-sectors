@@ -19,9 +19,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 class UserControllerIT extends BaseIntegrationTest {
 
-    private static final String USER_REGISTER_URI = "/api/v1/users/register";
-    private static final String USER_LOGIN_URI = "/api/v1/users/login";
-
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +33,7 @@ class UserControllerIT extends BaseIntegrationTest {
         var request = new UserAuthDTO("testuser", "password123");
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_REGISTER_URI)
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .bodyValue(request)
@@ -47,9 +44,9 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.jwt()).isNotNull();
-        assertThat(result.jwt()).isNotBlank();
+        assertThat(response).isNotNull();
+        assertThat(response.jwt()).isNotNull();
+        assertThat(response.jwt()).isNotBlank();
         assertTrue(userRepository.existsByUsername(request.username()));
     }
 
@@ -68,7 +65,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .returnResult();
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_REGISTER_URI)
             .header(ACCEPT,APPLICATION_JSON_VALUE)
             .bodyValue(request)
@@ -79,9 +76,9 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.code()).isEqualTo(USER_EXISTS_ERROR);
-        assertThat(result.description()).containsIgnoringCase("Username duplicate already exists");
+        assertThat(response).isNotNull();
+        assertThat(response.code()).isEqualTo(USER_EXISTS_ERROR);
+        assertThat(response.description()).containsIgnoringCase("Username duplicate already exists");
     }
 
     @Test
@@ -90,7 +87,7 @@ class UserControllerIT extends BaseIntegrationTest {
         var request = new UserAuthDTO("ab", "password123");
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_REGISTER_URI)
             .header(ACCEPT,APPLICATION_JSON_VALUE)
             .bodyValue(request)
@@ -101,9 +98,9 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.code()).isEqualTo(VALIDATION_ERROR);
-        assertThat(result.description()).containsIgnoringCase("Username must be between 3 and 50 characters");
+        assertThat(response).isNotNull();
+        assertThat(response.code()).isEqualTo(VALIDATION_ERROR);
+        assertThat(response.description()).containsIgnoringCase("Username must be between 3 and 50 characters");
     }
 
     @Test
@@ -112,7 +109,7 @@ class UserControllerIT extends BaseIntegrationTest {
         var request = new UserAuthDTO("validuser", "short");
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_REGISTER_URI)
             .header(ACCEPT,APPLICATION_JSON_VALUE)
             .bodyValue(request)
@@ -123,9 +120,9 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.code()).isEqualTo(VALIDATION_ERROR);
-        assertThat(result.description()).containsIgnoringCase("Password must be at least 8 characters");
+        assertThat(response).isNotNull();
+        assertThat(response.code()).isEqualTo(VALIDATION_ERROR);
+        assertThat(response.description()).containsIgnoringCase("Password must be at least 8 characters");
     }
 
     @Test
@@ -142,7 +139,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .returnResult();
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_LOGIN_URI)
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .bodyValue(request)
@@ -154,8 +151,8 @@ class UserControllerIT extends BaseIntegrationTest {
 
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.jwt()).isNotBlank();
+        assertThat(response).isNotNull();
+        assertThat(response.jwt()).isNotBlank();
     }
 
     @Test
@@ -174,7 +171,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .expectBody(AuthResponseDTO.class)
             .returnResult();
 
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_LOGIN_URI)
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .bodyValue(loginRequest)
@@ -185,9 +182,9 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.code()).isEqualTo(INVALID_CREDENTIALS);
-        assertThat(result.description()).containsIgnoringCase("Invalid username or password");
+        assertThat(response).isNotNull();
+        assertThat(response.code()).isEqualTo(INVALID_CREDENTIALS);
+        assertThat(response.description()).containsIgnoringCase("Invalid username or password");
     }
 
     @Test
@@ -196,7 +193,7 @@ class UserControllerIT extends BaseIntegrationTest {
         var loginRequest = new UserAuthDTO("nonexistent", "password123");
 
         // when
-        var result = webTestClient.post()
+        var response = webTestClient.post()
             .uri(USER_LOGIN_URI)
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .bodyValue(loginRequest)
@@ -207,8 +204,8 @@ class UserControllerIT extends BaseIntegrationTest {
             .getResponseBody();
 
         // then
-        assertThat(result).isNotNull();
-        assertThat(result.code()).isEqualTo(INVALID_CREDENTIALS);
-        assertThat(result.description()).containsIgnoringCase("Invalid username or password");
+        assertThat(response).isNotNull();
+        assertThat(response.code()).isEqualTo(INVALID_CREDENTIALS);
+        assertThat(response.description()).containsIgnoringCase("Invalid username or password");
     }
 }
