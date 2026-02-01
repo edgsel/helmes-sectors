@@ -27,6 +27,7 @@ export interface ApplicationResponseDTO {
 
 export interface ApplicationSummaryResponseDTO {
   id: string;
+  applicantName: string;
   createdAt: string;
   updatedAt: string | null;
 }

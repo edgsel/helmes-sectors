@@ -368,7 +368,7 @@ components:
                     type: string
                     format: uuid
                     description: Unique identifier of the application
-                    example: "550e8400-e29b-41d4-a716-446655440000"
+                    example: 550e8400-e29b-41d4-a716-446655440000
                 applicantName:
                     type: string
                     description: Applicant name
@@ -377,13 +377,13 @@ components:
                     type: string
                     format: date-time
                     description: Timestamp when the application was created
-                    example: "2026-01-29T10:30:00+02:00"
+                    example: 2026-01-29T10:30:00+02:00
                 updatedAt:
                     type: string
                     format: date-time
                     nullable: true
                     description: Timestamp when the application was last updated (null if never updated)
-                    example: "2026-01-29T15:45:00+02:00"
+                    example: 2026-01-29T15:45:00+02:00
         SectorResponseDTO:
             type: object
             description: Sector tree node
