@@ -7,6 +7,7 @@ A full-stack application for managing sector-based applications with user authen
 ### Backend (sectors-api)
 - Java 25
 - Spring Boot 4
+- Liquibase
 - PostgreSQL 18
 - Gradle 9.2.1
 - JWT Authentication
@@ -73,6 +74,14 @@ cd sectors-api
 ```bash
 cd sectors-api
 ./gradlew bootRun --args='--spring.profiles.active=local'
+```
+
+#### Liquibase
+
+To create a new changeset run createChangeDir with the next command:
+```bash
+# (NB! Set -Pid value with your own)
+./gradlew createChangeDir -Pid=test
 ```
 
 API Documentation: http://localhost:8080/swagger-ui/index.html
