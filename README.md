@@ -11,6 +11,7 @@ A full-stack application for managing sector-based applications with user authen
 - PostgreSQL 18
 - Gradle 9.2.1
 - JWT Authentication
+- TestContainers
 
 ### Frontend (sectors-ui)
 - Angular 21
