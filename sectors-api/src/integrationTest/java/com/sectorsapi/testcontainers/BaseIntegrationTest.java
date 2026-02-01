@@ -19,6 +19,7 @@ public abstract class BaseIntegrationTest {
     protected static final String USER_REGISTER_URI = "/api/v1/users/register";
     protected static final String USER_LOGIN_URI = "/api/v1/users/login";
     protected static final String SECTORS_TREE_URI = "/api/v1/sectors/tree";
+    protected static final String APPLICATIONS_URI = "/api/v1/users/applications";
 
     @Autowired
     protected WebTestClient webTestClient;

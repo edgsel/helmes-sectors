@@ -80,6 +80,4 @@ public class SectorControllerIT extends BaseIntegrationTest {
         assertThat(response.code()).isEqualTo(INVALID_CREDENTIALS);
         assertThat(response.description()).containsIgnoringCase("Unauthorized: Invalid or missing authentication token");
     }
-
-
 }
