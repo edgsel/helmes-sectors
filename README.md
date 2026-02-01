@@ -157,6 +157,7 @@ docker-compose down -v
 
 ```
 helmes-sectors/
+├── .github/worflows
 ├── docker-compose.yml
 ├── .env.example
 ├── sectors-api/          # Spring Boot backend
