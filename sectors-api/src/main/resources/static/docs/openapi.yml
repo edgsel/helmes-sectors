@@ -422,4 +422,5 @@ components:
                         - PARENT_SECTOR_SELECTED
                         - USER_EXISTS_ERROR
                         - VALIDATION_ERROR
+                        - MALFORMED_REQUEST
                         - INTERNAL_ERROR

@@ -1,5 +1,7 @@
 package com.helmes.sectorsapi.config;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.exception.BadCredentialsException;
 import com.helmes.sectorsapi.exception.EntityNotFoundException;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.stream.Collectors;
 
 import static com.helmes.sectorsapi.exception.ErrorCode.INTERNAL_ERROR;
+import static com.helmes.sectorsapi.exception.ErrorCode.MALFORMED_REQUEST;
 import static com.helmes.sectorsapi.exception.ErrorCode.VALIDATION_ERROR;
 
 @Slf4j
@@ -59,6 +63,23 @@ public class GlobalExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .contentType(MediaType.APPLICATION_JSON)
             .body(buildErrorResponseDTO(ex.getMessage(), ex.getCode()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponseDTO> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        var message = "Malformed JSON request";
+        var cause = ex.getCause();
+
+        if (cause instanceof JsonParseException jsonEx) {
+            message = "Invalid JSON: " + jsonEx.getOriginalMessage();
+        } else if (cause instanceof JsonMappingException jsonEx) {
+            message = "Invalid JSON mapping: " + jsonEx.getOriginalMessage();
+        }
+
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(buildErrorResponseDTO(message, MALFORMED_REQUEST));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
