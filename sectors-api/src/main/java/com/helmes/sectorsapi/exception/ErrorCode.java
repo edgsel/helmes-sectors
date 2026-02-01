@@ -8,4 +8,5 @@ public enum ErrorCode {
     USER_EXISTS_ERROR,
     VALIDATION_ERROR,
     INTERNAL_ERROR,
+    MALFORMED_REQUEST,
 }
