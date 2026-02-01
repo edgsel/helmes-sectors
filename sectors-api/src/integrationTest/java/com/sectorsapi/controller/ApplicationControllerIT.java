@@ -4,6 +4,7 @@ import com.helmes.sectorsapi.dto.request.CreateApplicationDTO;
 import com.helmes.sectorsapi.dto.request.UpdateApplicationDTO;
 import com.helmes.sectorsapi.dto.request.UserAuthDTO;
 import com.helmes.sectorsapi.dto.response.ApplicationResponseDTO;
+import com.helmes.sectorsapi.dto.response.ApplicationSummaryResponseDTO;
 import com.helmes.sectorsapi.dto.response.AuthResponseDTO;
 import com.helmes.sectorsapi.dto.response.ErrorResponseDTO;
 import com.helmes.sectorsapi.repository.ApplicationRepository;
@@ -191,7 +192,7 @@ class ApplicationControllerIT extends BaseIntegrationTest {
             .header(AUTHORIZATION, "Bearer " + jwtToken)
             .exchange()
             .expectStatus().isOk()
-            .expectBodyList(ApplicationResponseDTO.class)
+            .expectBodyList(ApplicationSummaryResponseDTO.class)
             .returnResult()
             .getResponseBody();
 
