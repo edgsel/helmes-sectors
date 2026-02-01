@@ -19,6 +19,7 @@ java {
 }
 
 configurations {
+    mockitoAgent
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -50,6 +51,7 @@ dependencies {
 
 tasks.named("test") {
     useJUnitPlatform()
+    jvmArgs "-XX:+EnableDynamicAgentLoading"
 }
 
 tasks.register("createChangeDir") {
