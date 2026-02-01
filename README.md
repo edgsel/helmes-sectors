@@ -76,6 +76,20 @@ cd sectors-api
 ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
 
+#### Tests
+
+##### Unit tests
+```bash
+cd sectors-api
+./gradlew clean test
+```
+
+##### Integration tests
+```bash
+cd sectors-api
+./gradlew clean integrationTest
+```
+
 #### Liquibase
 
 To create a new changeset run createChangeDir with the next command:
