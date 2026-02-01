@@ -8,10 +8,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
 @AutoConfigureWebTestClient
 @SpringBootTest(classes = SectorsApiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class BaseIntegrationTest {
@@ -21,11 +18,19 @@ public abstract class BaseIntegrationTest {
     protected static final String SECTORS_TREE_URI = "/api/v1/sectors/tree";
     protected static final String APPLICATIONS_URI = "/api/v1/users/applications";
 
+    static final PostgreSQLContainer<?> POSTGRES;
+
+    static {
+        POSTGRES = new PostgreSQLContainer<>("postgres:18-alpine")
+            .withDatabaseName("helmes")
+            .withUsername("test")
+            .withPassword("test")
+            .withReuse(true);
+        POSTGRES.start();
+    }
+
     @Autowired
     protected WebTestClient webTestClient;
-
-    @Container
-    static PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:18-alpine");
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
