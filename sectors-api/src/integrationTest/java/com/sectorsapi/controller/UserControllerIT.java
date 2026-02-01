@@ -51,7 +51,7 @@ class UserControllerIT extends BaseIntegrationTest {
     }
 
     @Test
-    void register_DuplicateUsername_Returns400() {
+    void register_DuplicateUsername_Returns409() {
         // given
         var request = new UserAuthDTO("duplicate", "password123");
 
@@ -92,7 +92,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .header(ACCEPT,APPLICATION_JSON_VALUE)
             .bodyValue(request)
             .exchange()
-            .expectStatus().is4xxClientError()
+            .expectStatus().isBadRequest()
             .expectBody(ErrorResponseDTO.class)
             .returnResult()
             .getResponseBody();
@@ -114,7 +114,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .header(ACCEPT,APPLICATION_JSON_VALUE)
             .bodyValue(request)
             .exchange()
-            .expectStatus().is4xxClientError()
+            .expectStatus().isBadRequest()
             .expectBody(ErrorResponseDTO.class)
             .returnResult()
             .getResponseBody();
@@ -144,7 +144,7 @@ class UserControllerIT extends BaseIntegrationTest {
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .bodyValue(request)
             .exchange()
-            .expectStatus().is2xxSuccessful()
+            .expectStatus().isOk()
             .expectBody(AuthResponseDTO.class)
             .returnResult()
             .getResponseBody();

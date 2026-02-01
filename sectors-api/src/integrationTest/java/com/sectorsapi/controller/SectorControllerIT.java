@@ -50,7 +50,7 @@ public class SectorControllerIT extends BaseIntegrationTest {
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .header(AUTHORIZATION, "Bearer " + jwtToken)
             .exchange()
-            .expectStatus().is2xxSuccessful()
+            .expectStatus().isOk()
             .expectBodyList(SectorResponseDTO.class)
             .returnResult()
             .getResponseBody();
@@ -71,7 +71,7 @@ public class SectorControllerIT extends BaseIntegrationTest {
             .uri(SECTORS_TREE_URI)
             .header(ACCEPT, APPLICATION_JSON_VALUE)
             .exchange()
-            .expectStatus().is4xxClientError()
+            .expectStatus().isUnauthorized()
             .expectBody(ErrorResponseDTO.class)
             .returnResult()
             .getResponseBody();
