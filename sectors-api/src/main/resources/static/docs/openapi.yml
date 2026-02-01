@@ -363,15 +363,16 @@ components:
                     example: true
         ApplicationSummaryResponseDTO:
             type: object
-            required:
-                - id
-                - createdAt
             properties:
                 id:
                     type: string
                     format: uuid
                     description: Unique identifier of the application
                     example: "550e8400-e29b-41d4-a716-446655440000"
+                applicantName:
+                    type: string
+                    description: Applicant name
+                    example: John Doe
                 createdAt:
                     type: string
                     format: date-time

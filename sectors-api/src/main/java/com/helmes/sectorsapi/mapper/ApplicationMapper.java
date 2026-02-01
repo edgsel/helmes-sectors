@@ -37,6 +37,7 @@ public class ApplicationMapper {
     public ApplicationSummaryResponseDTO toSummaryResponseDTO(ApplicationSummary summary) {
         return ApplicationSummaryResponseDTO.builder()
             .id(summary.getId())
+            .applicantName(summary.getApplicantName())
             .createdAt(summary.getCreatedAt())
             .updatedAt(summary.getUpdatedAt())
             .build();
