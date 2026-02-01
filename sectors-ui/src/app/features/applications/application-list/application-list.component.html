@@ -15,6 +15,7 @@
       <thead>
       <tr>
         <th>Application ID</th>
+        <th>Applicant Name</th>
         <th>Created At</th>
         <th>Updated At</th>
         <th>Actions</th>
@@ -24,6 +25,7 @@
         @for (app of applications(); track app.id) {
           <tr>
             <td class="id-cell">{{ app.id }}</td>
+            <td class="id-cell">{{ app.applicantName }}</td>
             <td>{{ app.createdAt | date:'medium' }}</td>
             <td>{{ app.updatedAt ? (app.updatedAt | date:'medium') : '—' }}</td>
             <td>

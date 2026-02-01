@@ -8,6 +8,7 @@ import java.util.UUID;
 @Builder
 public record ApplicationSummaryResponseDTO(
     UUID id,
+    String applicantName,
     OffsetDateTime createdAt,
     OffsetDateTime updatedAt
 ) {}

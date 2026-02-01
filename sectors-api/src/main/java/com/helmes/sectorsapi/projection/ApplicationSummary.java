@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public interface ApplicationSummary {
     UUID getId();
+    String getApplicantName();
     OffsetDateTime getCreatedAt();
     OffsetDateTime getUpdatedAt();
 }

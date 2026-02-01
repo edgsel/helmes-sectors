@@ -39,7 +39,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/{applicationId}")
-    public ResponseEntity<ApplicationResponseDTO> getByApplicationId(@AuthenticationPrincipal User user, @PathVariable UUID applicationId) {
+    public ResponseEntity<ApplicationResponseDTO> getApplicationById(@AuthenticationPrincipal User user, @PathVariable UUID applicationId) {
         var application = applicationService.fetchApplication(user, applicationId);
 
         return ResponseEntity.ok(application);

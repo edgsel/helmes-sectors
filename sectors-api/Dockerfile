@@ -4,7 +4,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY gradle ./gradle
 COPY src ./src
-RUN gradle build -x test --no-daemon
+RUN gradle build -x integrationTest --no-daemon
 
 # Run stage
 FROM eclipse-temurin:25-jre-alpine
