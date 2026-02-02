@@ -91,6 +91,11 @@ cd sectors-api
 ./gradlew clean integrationTest
 ```
 
+##### All tests
+```bash
+./gradlew check
+```
+
 #### Liquibase
 
 To create a new changeset run createChangeDir with the next command:
